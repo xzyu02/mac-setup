@@ -70,6 +70,26 @@ git config --global user.name "Xizheng Yu"
 ```
 Next, https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh
 
+### Node & NPM
+- [Node Version Manager (NVM)](https://github.com/nvm-sh/nvm)
+```sh
+nvm install stable
+```
+
+### SDKs
+- Java
+
+### Raycast Extensions
+- cheatsheet
+- search books
+- word search
+- ocr
+- google translate
+- myip
+- slack
+- notion
+- ......
+
 ### Install from Internet
 - GlobalProtect (for school VPN)
 - Matlab
