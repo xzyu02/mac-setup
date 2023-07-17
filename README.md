@@ -1,6 +1,7 @@
 # Macbook Setup
 
 Setup for my new Mac.
+Special Thanks to https://github.com/danvega/new-macbook-setup/tree/master/2021
 
 ## Get Started
 
