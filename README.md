@@ -63,6 +63,13 @@ brew install --cask youdaodict \
     mendeley 
 ```
 
+### Git Config
+```sh
+git config --global user.email "yuxizheng@outlook.com"
+git config --global user.name "Xizheng Yu"
+```
+Next, https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh
+
 ### Install from Internet
 - GlobalProtect (for school VPN)
 - Matlab
