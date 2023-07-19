@@ -23,6 +23,10 @@ xcode-select --install
 brew install git \
     tree \
     mysql \
+    htop \
+    wget \
+    tmux \
+    vim \
     
 brew install --cask anaconda \
     google-chrome \
@@ -40,6 +44,8 @@ brew install --cask anaconda \
     microsoft-office \
     figma \
     dropzone \
+    tempbox \
+    
 
 # other cast apps that might be useful
 alt-tab
