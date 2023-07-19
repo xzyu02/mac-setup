@@ -39,6 +39,11 @@ brew install --cask anaconda \
     google-drive \
     microsoft-office \
     figma \
+    dropzone \
+
+# other cast apps that might be useful
+alt-tab
+monitorcontrol
 ```
 
 **Social**
