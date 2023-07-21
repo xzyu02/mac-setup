@@ -45,6 +45,7 @@ brew install --cask anaconda \
     figma \
     dropzone \
     tempbox \
+    mongodb-compass \
     
 
 # other cast apps that might be useful
