@@ -41,7 +41,6 @@ brew install --cask anaconda \
     rstudio \
     google-drive \
     microsoft-office \
-    figma \
     dropzone \
     tempbox \
     mongodb-compass \
