@@ -106,3 +106,9 @@ nvm install stable
 - GlobalProtect (for school VPN)
 - Matlab
 - 东方财富
+
+### Clean Up Cache
+```sh
+brew cleanup --prune=all
+```
+
