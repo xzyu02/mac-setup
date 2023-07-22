@@ -34,7 +34,6 @@ brew install --cask anaconda \
     docker \
     notion \
     adobe-creative-cloud \
-    zoom \
     raycast \
     cyberduck \
     clashx \
