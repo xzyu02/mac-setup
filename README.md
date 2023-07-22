@@ -41,12 +41,13 @@ brew install --cask anaconda \
     rstudio \
     google-drive \
     microsoft-office \
-    dropzone \
+    figma \
     tempbox \
     mongodb-compass \
     
 
 # other cast apps that might be useful
+dropzone
 alt-tab
 monitorcontrol
 ```
