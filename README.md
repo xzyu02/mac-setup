@@ -7,6 +7,7 @@ Special Thanks to https://github.com/danvega/new-macbook-setup/tree/master/2021
 
 ### Install Apps in App Store
 
+- Wechat
 - Xcode
 
 ```sh
@@ -57,7 +58,6 @@ monitorcontrol
 brew install --cask zoom \
     slack \
     discord \
-    wechat \
     telegram
 ```
 
