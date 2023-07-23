@@ -92,8 +92,9 @@ Next, https://docs.github.com/en/github/authenticating-to-github/connecting-to-g
 nvm install stable
 ```
 
-### SDKs
-- Java
+### SDKs - Use [SDKMAN](https://sdkman.io/install) could easily manage different SDKs
+- Full list of SDKs [https://sdkman.io/sdks](https://sdkman.io/sdks)
+- Java - use `sdk install java` to install stable version Java
 
 ### Raycast Extensions
 - cheatsheet
