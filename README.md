@@ -9,6 +9,7 @@ Special Thanks to https://github.com/danvega/new-macbook-setup/tree/master/2021
 
 - Wechat
 - Xcode
+- runcat-plugins-manager
 
 ```sh
 xcode-select --install
@@ -65,7 +66,6 @@ brew install --cask zoom \
 ```sh
 brew install --cask youdaodict \
     eudic \
-    runcat-plugins-manager \
     transocks \
     deepl \
     grammarly \
