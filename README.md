@@ -10,6 +10,7 @@ Special Thanks to https://github.com/danvega/new-macbook-setup/tree/master/2021
 - Wechat
 - Xcode
 - runcat-plugins-manager
+- GlobalProtect (for school VPN)
 
 ```sh
 xcode-select --install
@@ -53,6 +54,9 @@ dropzone
 alt-tab
 monitorcontrol
 ```
+
+**Conda Setup ZSH**
+It is wired that anaconda install does not finish export to $PATH, an easiler way to solve this on m2pro chip is use anaconda navigator to open base environment, and do `conda init zsh`. Then every terminal will automatically loads conda.
 
 **Social**
 ```sh
@@ -103,7 +107,6 @@ nvm install stable
 - ......
 
 ### Install from Internet
-- GlobalProtect (for school VPN)
 - Matlab
 - 东方财富
 
