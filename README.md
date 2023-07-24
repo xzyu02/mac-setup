@@ -112,3 +112,32 @@ nvm install stable
 brew cleanup --prune=all
 ```
 
+### Oh My zsh
+- `plugins=(git brew macos docker node npm nvm httpie python tmux virtualenv)`
+- Add support for conda env
+    - Add the virtualenv plugin to `~/.zshrc` and make sure these lines are in `~/.oh-my-zsh/plugins/virtualenv/virtualenv.plugin.zsh`
+        ```sh
+        # disables prompt mangling in virtual_env/bin/activate
+        export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+        #Disable conda prompt changes
+        #https://conda.io/docs/user-guide/configuration/use-condarc.html#change-command-prompt-changeps1
+        #changeps1: False
+        `conda config --set changeps1 false`
+        ```
+    - Add these helper function to `~/.oh-my-zsh/themes/*.zsh-theme`, in my case, my default theme is `robbyrussell.zsh-theme`
+        ```sh
+        function conda_info {
+            if [[ -n "$CONDA_DEFAULT_ENV" ]]; then
+                echo "%{$fg[green]%}(${CONDA_DEFAULT_ENV})%{$reset_color%}"
+            fi
+        }
+
+        PROMPT="$(conda_info) %(?:%{$fg_bold[green]%}➜:%{$fg_bold[red]%}➜ ) %{$fg[cyan]%}%c%{$reset_color%}"
+        PROMPT+=' $(git_prompt_info)'
+
+        ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
+        ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
+        ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗"
+        ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
+        ```
