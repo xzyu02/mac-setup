@@ -118,7 +118,7 @@ brew cleanup --prune=all
 
 ### Oh My zsh
 - `plugins=(git brew macos docker node npm nvm httpie python tmux virtualenv)`
-- Add support for conda env
+- Add support for conda env, [Reference](https://gist.github.com/Samyak2/6676c608371e915e3c066dbbdcc25622)
     - Add the virtualenv plugin to `~/.zshrc` and make sure these lines are in `~/.oh-my-zsh/plugins/virtualenv/virtualenv.plugin.zsh`
         ```sh
         # disables prompt mangling in virtual_env/bin/activate
