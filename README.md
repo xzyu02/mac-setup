@@ -9,6 +9,8 @@ Special Thanks to https://github.com/danvega/new-macbook-setup/tree/master/2021
 
 - Wechat
 - Xcode
+- runcat-plugins-manager
+- GlobalProtect (for school VPN)
 
 ```sh
 xcode-select --install
@@ -53,6 +55,9 @@ alt-tab
 monitorcontrol
 ```
 
+**Conda Setup ZSH**
+It is wired that anaconda install does not finish export to $PATH, an easiler way to solve this on m2pro chip is use anaconda navigator to open base environment, and do `conda init zsh`. Then every terminal will automatically loads conda.
+
 **Social**
 ```sh
 brew install --cask zoom \
@@ -65,7 +70,6 @@ brew install --cask zoom \
 ```sh
 brew install --cask youdaodict \
     eudic \
-    runcat-plugins-manager \
     transocks \
     deepl \
     grammarly \
@@ -88,8 +92,9 @@ Next, https://docs.github.com/en/github/authenticating-to-github/connecting-to-g
 nvm install stable
 ```
 
-### SDKs
-- Java
+### SDKs - Use [SDKMAN](https://sdkman.io/install) could easily manage different SDKs
+- Full list of SDKs [https://sdkman.io/sdks](https://sdkman.io/sdks)
+- Java - use `sdk install java` to install stable version Java
 
 ### Raycast Extensions
 - cheatsheet
@@ -103,7 +108,6 @@ nvm install stable
 - ......
 
 ### Install from Internet
-- GlobalProtect (for school VPN)
 - Matlab
 - 东方财富
 
