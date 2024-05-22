@@ -21,7 +21,7 @@ xcode-select --install
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-**Productivity**
+**Development**
 ```sh
 brew install git \
     tree \
@@ -47,6 +47,7 @@ brew install --cask anaconda \
     figma \
     tempbox \
     mongodb-compass \
+    whisky
     
 
 # other cast apps that might be useful
