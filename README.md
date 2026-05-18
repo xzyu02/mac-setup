@@ -10,7 +10,6 @@ Special Thanks to https://github.com/danvega/new-macbook-setup/tree/master/2021
 - Wechat
 - Xcode
 - runcat-plugins-manager
-- GlobalProtect (for school VPN)
 
 ```sh
 xcode-select --install
@@ -36,7 +35,7 @@ brew install --cask anaconda \
     visual-studio-code \
     docker \
     notion \
-    adobe-creative-cloud \
+    obsidian \
     raycast \
     cyberduck \
     clashx \
@@ -46,9 +45,15 @@ brew install --cask anaconda \
     microsoft-office \
     figma \
     tempbox \
-    mongodb-compass \
-    whisky
+    notion-calendar \
+    linearmouse \
+    zoom \
+    slack \
+    discord \
+    codex \
+    claude-code \
     
+brew install --cask mactex-no-gui
 
 # other cast apps that might be useful
 dropzone
@@ -58,14 +63,6 @@ monitorcontrol
 
 **Conda Setup ZSH**
 It is wired that anaconda install does not finish export to $PATH, an easiler way to solve this on m2pro chip is use anaconda navigator to open base environment, and do `conda init zsh`. Then every terminal will automatically loads conda.
-
-**Social**
-```sh
-brew install --cask zoom \
-    slack \
-    discord \
-    telegram
-```
 
 **Others**
 ```sh
@@ -107,10 +104,6 @@ nvm install stable
 - slack
 - notion
 - ......
-
-### Install from Internet
-- Matlab
-- 东方财富
 
 ### Clean Up Cache
 ```sh
