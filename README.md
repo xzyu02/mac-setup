@@ -5,11 +5,7 @@ Special Thanks to https://github.com/danvega/new-macbook-setup/tree/master/2021
 
 ## Get Started
 
-### Install Apps in App Store
-
-- Wechat
-- Xcode
-- runcat-plugins-manager
+### XCode CLI
 
 ```sh
 xcode-select --install
@@ -79,8 +75,8 @@ brew install --cask youdaodict \
 
 ### Git Config
 ```sh
-git config --global user.email "yuxizheng@outlook.com"
-git config --global user.name "Xizheng Yu"
+git config --global user.email ""
+git config --global user.name ""
 ```
 Next, https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh
 
