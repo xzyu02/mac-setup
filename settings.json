@@ -1,0 +1,363 @@
+{
+    "terminal.integrated.shell.osx": "/bin/bash",
+    "files.autoSave": "afterDelay",
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook",
+        "*.in": "default",
+        "*.pdf": "latex-workshop-pdf-hook"
+    },
+    "files.exclude": {
+    },
+    "explorer.confirmDelete": false,
+    "sonarlint.rules": {
+        "java:S131": {
+            "level": "off"
+        },
+        "java:S1854": {
+            "level": "off"
+        },
+        "java:S2189": {
+            "level": "off"
+        }
+    },
+    "python.pythonPath": "/usr/local/bin/python3",
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "security.workspace.trust.untrustedFiles": "open",
+    "leetcode.nodePath": "/usr/local/bin/node",
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "git.suggestSmartCommit": false,
+    "remote.SSH.lockfilesInTmp": true,
+    "remote.SSH.showLoginTerminal": true,
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk-lualatex-shell-escape",
+            "command": "latexmk",
+            "args": [
+                "-f",
+                "-cd",
+                "-lualatex",
+                "-shell-escape",
+                "-interaction=nonstopmode",
+                "-synctex=1",
+                "-file-line-error",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "latexmk-shell-escape",
+            "command": "latexmk",
+            "args": [
+                "-f",
+                "-cd",
+                "-pdf",
+                "-shell-escape",
+                "-interaction=nonstopmode",
+                "-synctex=1",
+                "-file-line-error",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-f",
+                "-cd",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "xelatex",
+            "command": "xelatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-shell-escape",
+                "-output-directory=%OUTDIR%",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-shell-escape",
+                "-output-directory=%OUTDIR%",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": [
+                "%OUTDIR%/%DOCFILE%"
+            ]
+        },
+        {
+            "name": "biber",
+            "command": "biber",
+            "args": [
+                "%OUTDIR%/%DOCFILE%"
+            ]
+        },
+        {
+            "name": "make",
+            "command": "make",
+            "args": [
+                "all"
+            ]
+        },
+        {
+            "name": "lualatexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-lualatex",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "lualatex",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-lualatex",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "xelatexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-xelatex",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "latexmk_rconly",
+            "command": "latexmk",
+            "args": [
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "rnw2tex",
+            "command": "Rscript",
+            "args": [
+                "-e",
+                "knitr::opts_knit$set(concordance = TRUE); knitr::knit('%DOCFILE_EXT%')"
+            ],
+            "env": {}
+        },
+        {
+            "name": "jnw2tex",
+            "command": "julia",
+            "args": [
+                "-e",
+                "using Weave; weave(\"%DOC_EXT%\", doctype=\"tex\")"
+            ],
+            "env": {}
+        },
+        {
+            "name": "jnw2texmintex",
+            "command": "julia",
+            "args": [
+                "-e",
+                "using Weave; weave(\"%DOC_EXT%\", doctype=\"texminted\")"
+            ],
+            "env": {}
+        },
+        {
+            "name": "tectonic",
+            "command": "tectonic",
+            "args": [
+                "--synctex",
+                "--keep-logs",
+                "%DOC%.tex"
+            ],
+            "env": {}
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk lualatex with shell-escape",
+            "tools": [
+                "latexmk-lualatex-shell-escape"
+            ]
+        },
+        {
+            "name": "latexmk with shell-escape",
+            "tools": [
+                "latexmk-shell-escape"
+            ]
+        },
+        {
+            "name": "pdfLaTeX",
+            "tools": [
+                "pdflatex"
+            ]
+        },
+        {
+            "name": "latexmk 🔃",
+            "tools": [
+                "latexmk"
+            ]
+        },
+        {
+            "name": "xelatex",
+            "tools": [
+                "xelatex"
+            ]
+        },
+        {
+            "name": "pdflatex ➞ bibtex ➞ pdflatex`×2",
+            "tools": [
+                "pdflatex",
+                "bibtex",
+                "pdflatex",
+                "pdflatex"
+            ]
+        },
+        {
+            "name": "xelatex ➞ bibtex ➞ xelatex`×2",
+            "tools": [
+                "xelatex",
+                "bibtex",
+                "xelatex",
+                "xelatex"
+            ]
+        },
+        {
+            "name": "Makefile",
+            "tools": [
+                "make"
+            ]
+        }
+    ],
+    "latex-workshop.latex.outDir": "%DIR%/build",
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.latex.recipe.default": "latexmk lualatex with shell-escape",
+    "latex-workshop.latex.build.forceRecipeUsage": true,
+    "latex-workshop.view.pdf.viewer": "tab",
+    "latex-workshop.synctex.afterBuild.enabled": true,
+    "latex-workshop.synctex.path": "/Library/TeX/texbin/synctex",
+    "latex-workshop.formatting.latex": "none",
+    "notebook.output.textLineLimit": 50,
+    "explorer.confirmDragAndDrop": false,
+    "[python]": {
+        "editor.formatOnType": true,
+        "editor.rulers": [
+            79,
+            120
+        ],
+        "editor.defaultFormatter": "ms-python.python"
+    },
+    "autoDocstring.docstringFormat": "numpy",
+    "npm.keybindingsChangedWarningShown": true,
+    "jupyter.askForKernelRestart": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.rulers": [
+        // 79,
+        // 120
+    ],
+    "[git-commit]": {
+        "editor.rulers": [
+            50
+        ]
+    },
+    "workbench.commandPalette.experimental.suggestCommands": true,
+    "workbench.productIconTheme": "emoji-product-icons-fun",
+    "terminal.integrated.inheritEnv": false,
+    "jupyter.interactiveWindow.creationMode": "perFile",
+    "notebook.confirmDeleteRunningCell": false,
+    "jupyter.widgetScriptSources": [
+        "jsdelivr.com",
+        "unpkg.com"
+    ],
+    "explorer.confirmPasteNative": false,
+    "github.copilot.editor.enableAutoCompletions": true,
+    "search.followSymlinks": false,
+    "workbench.startupEditor": "none",
+    "codeium.enableExplainProblem": false,
+    "editor.wordWrap": "on",
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "terminal.integrated.initialHint": false,
+    "workbench.colorTheme": "Dark Modern",
+    "remote.SSH.remotePlatform": {
+        "ccv-vscode-node": "linux"
+    },
+    "gitlens.advanced.messages": {
+        "suppressGitMissingWarning": true
+    },
+    "gitlens.ai.model": "vscode",
+    "gitlens.ai.vscode.model": "copilot:gpt-4.1",
+    "scm.diffDecorations": "gutter",
+    "editor.formatOnSave": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[go]": {
+        "editor.insertSpaces": false,
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        "editor.defaultFormatter": "golang.go"
+    },
+    "editor.inlineSuggest.enabled": true,
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": true,
+        "markdown": true,
+        "scminput": false
+    },
+    "[c]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools"
+    },
+    "git.terminalAuthentication": false,
+    "workbench.editor.enablePreview": false,
+    "[latex]": {
+        "editor.defaultFormatter": "James-Yu.latex-workshop",
+        "editor.formatOnSave": false
+    },
+    "remote.SSH.configFile": "~/.ssh/config",
+    "remote.SSH.logLevel": "trace",
+    "remote.SSH.connectTimeout": 60,
+    "editor.minimap.renderCharacters": false,
+    "files.associations": {
+        "*.{a80,z80,asm,inc,s}": "asm-collection",
+        "*.{list,lis}": "asm-collection-list"
+    },
+    "remote.SSH.useExecServer": false
+}
