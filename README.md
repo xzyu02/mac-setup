@@ -34,20 +34,20 @@ brew install --cask anaconda \
     obsidian \
     raycast \
     cyberduck \
-    clashx \
     iina \
     rstudio \
     google-drive \
     microsoft-office \
     figma \
     tempbox \
-    notion-calendar \
     linearmouse \
     zoom \
     slack \
     discord \
     codex \
     claude-code \
+    motrixnext \
+    meetingbar \
     
 brew install --cask mactex-no-gui
 
@@ -65,11 +65,6 @@ It is wired that anaconda install does not finish export to $PATH, an easiler wa
 brew install --cask youdaodict \
     eudic \
     transocks \
-    deepl \
-    grammarly \
-    xmind \
-    logi-options-plus \
-    neteasemusic \
     mendeley 
 ```
 
