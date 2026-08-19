@@ -1,0 +1,25 @@
+Host jump-box
+    HostName ssh.ccv.brown.edu
+    User xyu110
+    StrictHostKeyChecking accept-new
+
+Host ccv-vscode-node
+    HostName vscode
+    User xyu110
+    ProxyCommand ssh -q -W %h:%p jump-box
+    StrictHostKeyChecking accept-new
+
+Host cannon
+  HostName login.rc.fas.harvard.edu
+  User xzyu
+  ControlMaster auto
+  ControlPath ~/.ssh/%r@%h:%p
+
+Host vsingh-node-0
+  HostName 10.131.151.11
+  User xizheng
+
+Host github.com
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519

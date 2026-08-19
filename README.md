@@ -15,48 +15,14 @@ From the repository root, run:
 
 [`bootstrap.sh`](./bootstrap.sh) checks for the Xcode Command Line Tools and
 Homebrew, installs them when needed, applies [`Brewfile`](./Brewfile), and
-verifies the main command-line tools. If macOS opens the Xcode Command Line Tools
-installer, finish the installation and run the script again. Optional apps are
-not installed by the script.
+restores the tracked [VS Code settings](./vscode/settings.json) and
+[SSH host configuration](./ssh/config) before verifying the main command-line
+tools. If macOS opens the Xcode Command Line Tools installer, finish the
+installation and run the script again. Optional apps and VS Code extensions are
+not installed by the script. SSH keys and `known_hosts` are never copied.
 
-The sections below document the same setup steps for manual use and
-troubleshooting.
-
-### XCode CLI
-
-```sh
-xcode-select --install
-```
-### [Homebrew](https://brew.sh/)
-
-```sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-To apply the standard command-line tools and apps manually, run:
-
-```sh
-brew bundle
-brew bundle check
-```
-
-`brew bundle` is safe to run again: packages that are already installed are
-reused and missing entries are installed.
-
-#### Optional apps
-
-These apps are intentionally excluded from `Brewfile`. Install only the ones
-needed on a particular Mac:
-
-```sh
-brew install --cask youdaodict \
-    eudic \
-    transocks \
-    mendeley \
-    dropzone \
-    alt-tab \
-    monitorcontrol
-```
+For individual Xcode CLI Tools, Homebrew, Brewfile, troubleshooting, and optional
+app commands, see [`MANUAL-SETUP.md`](./MANUAL-SETUP.md).
 
 **Conda Setup ZSH**
 It is wired that anaconda install does not finish export to $PATH, an easiler way to solve this on m2pro chip is use anaconda navigator to open base environment, and do `conda init zsh`. Then every terminal will automatically loads conda.

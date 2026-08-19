@@ -4,6 +4,8 @@ set -euo pipefail
 
 readonly SETUP_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 readonly BREWFILE_PATH="${SETUP_DIR}/Brewfile"
+readonly SSH_CONFIG_SOURCE="${SETUP_DIR}/ssh/config"
+readonly VSCODE_SETTINGS_SOURCE="${SETUP_DIR}/vscode/settings.json"
 
 log() {
     printf '\n==> %s\n' "$1"
@@ -49,6 +51,69 @@ brew bundle --file="${BREWFILE_PATH}"
 
 log "Checking the Brewfile installation"
 brew bundle check --file="${BREWFILE_PATH}"
+
+log "Restoring VS Code user settings"
+vscode_user_dir="${HOME}/Library/Application Support/Code/User"
+vscode_settings_target="${vscode_user_dir}/settings.json"
+vscode_settings_backup="${vscode_settings_target}.pre-mac-setup"
+
+if [[ ! -f "${VSCODE_SETTINGS_SOURCE}" ]]; then
+    printf 'VS Code settings not found at %s.\n' "${VSCODE_SETTINGS_SOURCE}" >&2
+    exit 1
+fi
+
+mkdir -p "${vscode_user_dir}"
+
+if [[ -f "${vscode_settings_target}" ]] &&
+    ! cmp -s "${VSCODE_SETTINGS_SOURCE}" "${vscode_settings_target}"; then
+    if [[ ! -e "${vscode_settings_backup}" ]]; then
+        cp "${vscode_settings_target}" "${vscode_settings_backup}"
+        printf '  Backed up existing settings to %s\n' "${vscode_settings_backup}"
+    fi
+fi
+
+if [[ ! -f "${vscode_settings_target}" ]] ||
+    ! cmp -s "${VSCODE_SETTINGS_SOURCE}" "${vscode_settings_target}"; then
+    cp "${VSCODE_SETTINGS_SOURCE}" "${vscode_settings_target}"
+    printf '  Installed %s\n' "${vscode_settings_target}"
+else
+    printf '  Existing VS Code settings already match the repository.\n'
+fi
+
+printf '  VS Code extensions are intentionally not migrated.\n'
+
+log "Restoring SSH host configuration"
+ssh_user_dir="${HOME}/.ssh"
+ssh_config_target="${ssh_user_dir}/config"
+ssh_config_backup="${ssh_config_target}.pre-mac-setup"
+
+if [[ ! -f "${SSH_CONFIG_SOURCE}" ]]; then
+    printf 'SSH configuration not found at %s.\n' "${SSH_CONFIG_SOURCE}" >&2
+    exit 1
+fi
+
+mkdir -p "${ssh_user_dir}"
+chmod 700 "${ssh_user_dir}"
+
+if [[ -f "${ssh_config_target}" ]] &&
+    ! cmp -s "${SSH_CONFIG_SOURCE}" "${ssh_config_target}"; then
+    if [[ ! -e "${ssh_config_backup}" ]]; then
+        cp "${ssh_config_target}" "${ssh_config_backup}"
+        chmod 600 "${ssh_config_backup}"
+        printf '  Backed up existing config to %s\n' "${ssh_config_backup}"
+    fi
+fi
+
+if [[ ! -f "${ssh_config_target}" ]] ||
+    ! cmp -s "${SSH_CONFIG_SOURCE}" "${ssh_config_target}"; then
+    cp "${SSH_CONFIG_SOURCE}" "${ssh_config_target}"
+    printf '  Installed %s\n' "${ssh_config_target}"
+else
+    printf '  Existing SSH config already matches the repository.\n'
+fi
+
+chmod 600 "${ssh_config_target}"
+printf '  SSH keys and known_hosts are intentionally not migrated.\n'
 
 log "Verifying command-line tools"
 missing_command=0

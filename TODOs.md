@@ -1,6 +1,6 @@
 # TODOs
 
-Last updated: 2026-08-19 18:01:39 EDT
+Last updated: 2026-08-19 18:13:43 EDT
 
 ## Planned features
 
@@ -8,6 +8,9 @@ None currently.
 
 ## Completed / fixed features
 
+- [x] Saved the reusable SSH host configuration and added permission-safe bootstrap restoration without copying keys or `known_hosts`.
+- [x] Preserved the current VS Code user settings under `vscode/` and added safe bootstrap restoration without migrating extensions.
+- [x] Moved manual Xcode CLI Tools, Homebrew, Brewfile, and optional-app instructions into a dedicated guide linked from the README.
 - [x] Added an idempotent macOS `bootstrap.sh` for Xcode CLI Tools, Homebrew, Brewfile installation, and command verification.
 - [x] Added a declarative `Brewfile` for the standard Mac setup while keeping optional applications outside the default installation.
 - [x] Switched Node.js setup from NVM to a system-level Homebrew installation with verification commands.
