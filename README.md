@@ -5,73 +5,61 @@ Special Thanks to https://github.com/danvega/new-macbook-setup/tree/master/2021
 
 ## Get Started
 
+### Automated setup
+
+From the repository root, run:
+
+```sh
+./bootstrap.sh
+```
+
+[`bootstrap.sh`](./bootstrap.sh) checks for the Xcode Command Line Tools and
+Homebrew, installs them when needed, applies [`Brewfile`](./Brewfile), and
+verifies the main command-line tools. If macOS opens the Xcode Command Line Tools
+installer, finish the installation and run the script again. Optional apps are
+not installed by the script.
+
+The sections below document the same setup steps for manual use and
+troubleshooting.
+
 ### XCode CLI
 
 ```sh
 xcode-select --install
 ```
-### [Homebrew](https://brew.sh/) and Others
+### [Homebrew](https://brew.sh/)
 
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-**Development**
+To apply the standard command-line tools and apps manually, run:
+
 ```sh
-brew install git \
-    tree \
-    mysql \
-    htop \
-    wget \
-    tmux \
-    vim \
-    node
-    
-brew install --cask anaconda \
-    google-chrome \
-    visual-studio-code \
-    docker \
-    notion \
-    obsidian \
-    raycast \
-    cyberduck \
-    iina \
-    rstudio \
-    google-drive \
-    microsoft-office \
-    figma \
-    tempbox \
-    linearmouse \
-    zoom \
-    slack \
-    discord \
-    chatgpt \
-    claude \
-    motrixnext \
-    meetingbar \
-
-# Terminal coding agents
-brew install --cask codex \
-    claude-code
-
-brew install --cask mactex-no-gui
-
-# other cast apps that might be useful
-dropzone
-alt-tab
-monitorcontrol
+brew bundle
+brew bundle check
 ```
 
-**Conda Setup ZSH**
-It is wired that anaconda install does not finish export to $PATH, an easiler way to solve this on m2pro chip is use anaconda navigator to open base environment, and do `conda init zsh`. Then every terminal will automatically loads conda.
+`brew bundle` is safe to run again: packages that are already installed are
+reused and missing entries are installed.
 
-**Others**
+#### Optional apps
+
+These apps are intentionally excluded from `Brewfile`. Install only the ones
+needed on a particular Mac:
+
 ```sh
 brew install --cask youdaodict \
     eudic \
     transocks \
-    mendeley 
+    mendeley \
+    dropzone \
+    alt-tab \
+    monitorcontrol
 ```
+
+**Conda Setup ZSH**
+It is wired that anaconda install does not finish export to $PATH, an easiler way to solve this on m2pro chip is use anaconda navigator to open base environment, and do `conda init zsh`. Then every terminal will automatically loads conda.
 
 ### Git Config
 ```sh
@@ -80,14 +68,13 @@ git config --global user.name ""
 ```
 Next, https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh
 
-### Node & NPM
+### Verify Node & NPM
 
-Install Node with Homebrew so `node`, `npm`, and `npx` are available system-wide,
-including to macOS GUI apps that do not load a shell-managed Node version:
+Node is installed by `Brewfile` through Homebrew so `node`, `npm`, and `npx` are
+available system-wide, including to macOS GUI apps that do not load a
+shell-managed Node version. Confirm the installation with:
 
 ```sh
-brew install node
-
 which node
 which npm
 which npx
