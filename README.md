@@ -25,6 +25,7 @@ brew install git \
     wget \
     tmux \
     vim \
+    node
     
 brew install --cask anaconda \
     google-chrome \
@@ -44,11 +45,15 @@ brew install --cask anaconda \
     zoom \
     slack \
     discord \
-    codex \
-    claude-code \
+    chatgpt \
+    claude \
     motrixnext \
     meetingbar \
-    
+
+# Terminal coding agents
+brew install --cask codex \
+    claude-code
+
 brew install --cask mactex-no-gui
 
 # other cast apps that might be useful
@@ -76,10 +81,45 @@ git config --global user.name ""
 Next, https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh
 
 ### Node & NPM
-- [Node Version Manager (NVM)](https://github.com/nvm-sh/nvm)
+
+Install Node with Homebrew so `node`, `npm`, and `npx` are available system-wide,
+including to macOS GUI apps that do not load a shell-managed Node version:
+
 ```sh
-nvm install stable
+brew install node
+
+which node
+which npm
+which npx
+node -v
+npm -v
+npx -v
 ```
+
+Homebrew normally installs the executables under `/opt/homebrew/bin` on Apple
+Silicon and `/usr/local/bin` on Intel Macs. Fully restart any GUI app that needs
+Node after installation.
+
+### Repository Instructions
+
+Project-specific Codex instructions are kept in [`AGENTS.md`](./AGENTS.md) and
+should be synced with the rest of this repository.
+
+### AI Desktop Apps and CLIs
+
+- `chatgpt` installs the ChatGPT desktop app, which includes the Codex desktop
+  experience.
+- `codex` installs the standalone Codex CLI for terminal workflows.
+- `claude` installs the Claude desktop app.
+- `claude-code` installs the standalone Claude Code CLI for terminal workflows.
+
+The desktop apps and CLIs are installed separately so both interfaces remain
+available.
+
+### Obsidian Plugins
+
+See [`OBSIDIAN-PLUGINS.md`](./OBSIDIAN-PLUGINS.md) for the current community and
+core plugin inventory.
 
 ### SDKs - Use [SDKMAN](https://sdkman.io/install) could easily manage different SDKs
 - Full list of SDKs [https://sdkman.io/sdks](https://sdkman.io/sdks)
