@@ -122,13 +122,13 @@ curl -fsSLo "$miniforge_installer" \
     "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-$(uname -m).sh"
 bash "$miniforge_installer" -b -p "$HOME/miniforge3"
 rm -f "$miniforge_installer"
-"$HOME/miniforge3/bin/conda" init zsh
 "$HOME/miniforge3/bin/conda" config --set auto_activate_base false
 ```
 
 Open a new terminal, then verify `conda --version` and `mamba --version`.
 Miniforge is kept outside `Brewfile` because its upstream project does not
-recommend Homebrew's repackaged installation.
+recommend Homebrew's repackaged installation. Configure the lazy Conda loader
+from [`OH-MY-ZSH.md`](./OH-MY-ZSH.md) instead of running `conda init zsh`.
 
 ## VS Code settings
 

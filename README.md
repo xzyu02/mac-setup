@@ -87,6 +87,12 @@ Google Calendar, and an Obsidian vault after installation.
 See [`OBSIDIAN-PLUGINS.md`](./OBSIDIAN-PLUGINS.md) for the current community and
 core plugin inventory.
 
+### Oh My Zsh
+
+See [`OH-MY-ZSH.md`](./OH-MY-ZSH.md) for the optimized shell configuration,
+lazy Miniforge and SDKMAN loading, preserved custom paths, and startup timing
+commands.
+
 ### SDKs - Use [SDKMAN](https://sdkman.io/install) could easily manage different SDKs
 - Full list of SDKs [https://sdkman.io/sdks](https://sdkman.io/sdks)
 - Java - use `sdk install java` to install stable version Java
@@ -106,36 +112,3 @@ core plugin inventory.
 ```sh
 brew cleanup --prune=all
 ```
-
-### Oh My zsh
-- `plugins=(git brew macos docker node npm nvm httpie python tmux virtualenv)`
-- Add support for conda env, [Reference](https://gist.github.com/Samyak2/6676c608371e915e3c066dbbdcc25622)
-    - Add the virtualenv plugin to `~/.zshrc` and make sure these lines are in `~/.oh-my-zsh/plugins/virtualenv/virtualenv.plugin.zsh`
-        ```sh
-        # disables prompt mangling in virtual_env/bin/activate
-        export VIRTUAL_ENV_DISABLE_PROMPT=1
-
-        #Disable conda prompt changes
-        #https://conda.io/docs/user-guide/configuration/use-condarc.html#change-command-prompt-changeps1
-        #changeps1: False
-        `conda config --set changeps1 false`
-        ```
-    - Add these helper function to `~/.oh-my-zsh/themes/*.zsh-theme`, in my case, my default theme is `robbyrussell.zsh-theme`
-        ```sh
-        function conda_info {
-            if [[ -n "$CONDA_DEFAULT_ENV" ]]; then
-                echo "%{$fg[green]%}(${CONDA_DEFAULT_ENV})%{$reset_color%}"
-            fi
-        }
-        local conda='$(conda_info)'
-        
-        PROMPT=""
-        PROMPT+="$conda "
-        PROMPT+="%(?:%{$fg_bold[green]%}➜:%{$fg_bold[red]%}➜ ) %{$fg[cyan]%}%c%{$reset_color%}"
-        PROMPT+=' $(git_prompt_info)'
-        
-        ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
-        ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
-        ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗"
-        ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
-        ```

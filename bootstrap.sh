@@ -90,10 +90,10 @@ else
     rm -f "${miniforge_installer}"
 fi
 
-"${miniforge_conda}" init zsh
 "${miniforge_conda}" config --set auto_activate_base false
 export PATH="${MINIFORGE_DIR}/condabin:${MINIFORGE_DIR}/bin:${PATH}"
-printf '  Miniforge initialized for zsh; automatic base activation is disabled.\n'
+printf '  Automatic base activation is disabled.\n'
+printf '  Apply the lazy zsh loader documented in OH-MY-ZSH.md.\n'
 
 log "Restoring VS Code user settings"
 vscode_user_dir="${HOME}/Library/Application Support/Code/User"

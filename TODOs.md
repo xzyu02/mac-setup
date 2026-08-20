@@ -1,6 +1,6 @@
 # TODOs
 
-Last updated: 2026-08-19 18:30:29 EDT
+Last updated: 2026-08-20 13:03:18 EDT
 
 ## Planned features
 
@@ -8,8 +8,10 @@ None currently.
 
 ## Completed / fixed features
 
+- [x] Documented a reusable Oh My Zsh optimization that avoids duplicate NVM and eager runtime initialization while preserving custom paths, Java, Conda access, and aliases.
+- [x] Added a repository-wide Git ignore rule for macOS `.DS_Store` metadata files.
 - [x] Documented the manual ChatGPT/Codex and Claude connector setup for Notion, Gmail, Google Calendar, and local Obsidian vault access without storing authentication data.
-- [x] Replaced the Anaconda Homebrew cask with an idempotent official Miniforge installation, zsh initialization, and conda/mamba verification.
+- [x] Replaced the Anaconda Homebrew cask with an idempotent official Miniforge installation, disabled automatic base activation, and added conda/mamba verification.
 - [x] Saved the reusable SSH host configuration and added permission-safe bootstrap restoration without copying keys or `known_hosts`.
 - [x] Preserved the current VS Code user settings under `vscode/` and added safe bootstrap restoration without migrating extensions.
 - [x] Moved manual Xcode CLI Tools, Homebrew, Brewfile, and optional-app instructions into a dedicated guide linked from the README.
