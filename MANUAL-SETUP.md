@@ -41,6 +41,95 @@ brew bundle check
 `brew bundle` can be run again: installed entries are reused and missing entries
 are installed.
 
+## AI apps and connectors
+
+`Brewfile` installs the ChatGPT desktop app (including Codex), Codex CLI, Claude
+Desktop, Claude Code, and Obsidian. The connector setup below remains manual
+because each service requires an account login, OAuth consent, and sometimes a
+workspace administrator's approval. Do not commit OAuth tokens, app caches, or
+generated connector configuration to this repository.
+
+### ChatGPT and Codex
+
+ChatGPT and Codex use the same public plugin catalog, but install and enable the
+plugins from each environment where they will be used:
+
+1. Open ChatGPT Desktop and sign in.
+2. Open **Plugins**, then install **Notion**, **Gmail**, and **Google Calendar**.
+3. Select **Connect** when prompted and complete each service's authorization.
+4. Start a new Chat or Codex task, then test each plugin with `@Notion`,
+   `@Gmail`, or `@Google Calendar`.
+5. Start Codex CLI, enter `/plugins`, install the same three plugins, and start a
+   new CLI session so their skills and tools are loaded.
+
+Connector login cannot be automated by `bootstrap.sh`. Plugin availability can
+also depend on the account plan, region, and workspace policy. See the official
+[ChatGPT and Codex plugin guide](https://learn.chatgpt.com/docs/plugins).
+
+There is no first-party Obsidian connector documented in the current OpenAI
+plugin guide. To work on a local Obsidian vault, use Codex inside the ChatGPT
+desktop app and open the vault directory as the task workspace, or run Codex CLI
+from the vault root:
+
+```sh
+cd "/path/to/Obsidian Vault"
+codex
+```
+
+Grant access only to the intended vault. A third-party Obsidian MCP/plugin is
+optional; inspect its permissions and source before installing it.
+
+### Claude Desktop and Claude Code
+
+Claude's remote connectors are account based. Once connected, they are
+available across supported Claude surfaces, including Claude Desktop and Claude
+Code:
+
+1. Open Claude Desktop and sign in.
+2. Go to **Customize > Connectors** and open the connector directory.
+3. Connect **Notion**, **Gmail**, and **Google Calendar**, then complete each
+   authorization flow.
+4. For Team or Enterprise accounts, ask an owner to enable the connectors if
+   they are unavailable.
+5. Start a new Claude Desktop chat and a new Claude Code session, then confirm
+   each connector is available.
+
+For an Obsidian vault, the simplest Claude Code setup is to start it from the
+vault root:
+
+```sh
+cd "/path/to/Obsidian Vault"
+claude
+```
+
+For Claude Desktop, open **Settings > Extensions** and install a trusted local
+filesystem or Obsidian desktop extension if one is available. Local extensions
+are machine-specific and still require interactive permission, so they are not
+part of the automated bootstrap. See Anthropic's [connector
+guide](https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities)
+and [desktop extension
+guide](https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop).
+
+## Miniforge
+
+[Miniforge](https://github.com/conda-forge/miniforge) provides a minimal
+`conda` and `mamba` installation that uses conda-forge by default. Install the
+official build for the Mac's architecture:
+
+```sh
+miniforge_installer="$(mktemp "${TMPDIR:-/tmp}/miniforge-installer.XXXXXX")"
+curl -fsSLo "$miniforge_installer" \
+    "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-$(uname -m).sh"
+bash "$miniforge_installer" -b -p "$HOME/miniforge3"
+rm -f "$miniforge_installer"
+"$HOME/miniforge3/bin/conda" init zsh
+"$HOME/miniforge3/bin/conda" config --set auto_activate_base false
+```
+
+Open a new terminal, then verify `conda --version` and `mamba --version`.
+Miniforge is kept outside `Brewfile` because its upstream project does not
+recommend Homebrew's repackaged installation.
+
 ## VS Code settings
 
 The canonical VS Code user configuration is tracked in

@@ -15,17 +15,27 @@ From the repository root, run:
 
 [`bootstrap.sh`](./bootstrap.sh) checks for the Xcode Command Line Tools and
 Homebrew, installs them when needed, applies [`Brewfile`](./Brewfile), and
-restores the tracked [VS Code settings](./vscode/settings.json) and
-[SSH host configuration](./ssh/config) before verifying the main command-line
-tools. If macOS opens the Xcode Command Line Tools installer, finish the
-installation and run the script again. Optional apps and VS Code extensions are
-not installed by the script. SSH keys and `known_hosts` are never copied.
+installs Miniforge from its official installer. It then restores the tracked
+[VS Code settings](./vscode/settings.json) and [SSH host
+configuration](./ssh/config) before verifying the main command-line tools. If
+macOS opens the Xcode Command Line Tools installer, finish the installation and
+run the script again. Optional apps and VS Code extensions are not installed by
+the script. SSH keys and `known_hosts` are never copied.
 
 For individual Xcode CLI Tools, Homebrew, Brewfile, troubleshooting, and optional
 app commands, see [`MANUAL-SETUP.md`](./MANUAL-SETUP.md).
 
-**Conda Setup ZSH**
-It is wired that anaconda install does not finish export to $PATH, an easiler way to solve this on m2pro chip is use anaconda navigator to open base environment, and do `conda init zsh`. Then every terminal will automatically loads conda.
+### Python environments with Miniforge
+
+Miniforge replaces Anaconda in this setup. `bootstrap.sh` installs the official
+distribution to `~/miniforge3`, initializes `conda` for zsh, and disables
+automatic activation of the `base` environment. Both `conda` and `mamba` are
+available after opening a new terminal.
+
+Miniforge is intentionally installed with its upstream installer instead of a
+Homebrew cask, following the project's installation recommendation. See the
+[manual Miniforge steps](./MANUAL-SETUP.md#miniforge) if the bootstrap cannot be
+used.
 
 ### Git Config
 ```sh
@@ -67,7 +77,10 @@ should be synced with the rest of this repository.
 - `claude-code` installs the standalone Claude Code CLI for terminal workflows.
 
 The desktop apps and CLIs are installed separately so both interfaces remain
-available.
+available. Their account connectors require interactive authorization and are
+therefore not configured by `bootstrap.sh`. Follow the [AI apps and connectors
+checklist](./MANUAL-SETUP.md#ai-apps-and-connectors) to connect Notion, Gmail,
+Google Calendar, and an Obsidian vault after installation.
 
 ### Obsidian Plugins
 

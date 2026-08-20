@@ -9,7 +9,6 @@ brew "vim"
 brew "node"
 
 # Desktop applications
-cask "anaconda"
 cask "google-chrome"
 cask "visual-studio-code"
 cask "docker"
