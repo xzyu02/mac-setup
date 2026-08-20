@@ -7,6 +7,7 @@ readonly BREWFILE_PATH="${SETUP_DIR}/Brewfile"
 readonly MINIFORGE_DIR="${HOME}/miniforge3"
 readonly SSH_CONFIG_SOURCE="${SETUP_DIR}/ssh/config"
 readonly VSCODE_SETTINGS_SOURCE="${SETUP_DIR}/vscode/settings.json"
+readonly CLAUDE_SETTINGS_SOURCE="${SETUP_DIR}/claude/settings.json"
 
 log() {
     printf '\n==> %s\n' "$1"
@@ -124,6 +125,36 @@ else
 fi
 
 printf '  VS Code extensions are intentionally not migrated.\n'
+
+log "Restoring Claude Code user settings"
+claude_user_dir="${HOME}/.claude"
+claude_settings_target="${claude_user_dir}/settings.json"
+claude_settings_backup="${claude_settings_target}.pre-mac-setup"
+
+if [[ ! -f "${CLAUDE_SETTINGS_SOURCE}" ]]; then
+    printf 'Claude Code settings not found at %s.\n' "${CLAUDE_SETTINGS_SOURCE}" >&2
+    exit 1
+fi
+
+mkdir -p "${claude_user_dir}"
+
+if [[ -f "${claude_settings_target}" ]] &&
+    ! cmp -s "${CLAUDE_SETTINGS_SOURCE}" "${claude_settings_target}"; then
+    if [[ ! -e "${claude_settings_backup}" ]]; then
+        cp "${claude_settings_target}" "${claude_settings_backup}"
+        printf '  Backed up existing settings to %s\n' "${claude_settings_backup}"
+    fi
+fi
+
+if [[ ! -f "${claude_settings_target}" ]] ||
+    ! cmp -s "${CLAUDE_SETTINGS_SOURCE}" "${claude_settings_target}"; then
+    cp "${CLAUDE_SETTINGS_SOURCE}" "${claude_settings_target}"
+    printf '  Installed %s\n' "${claude_settings_target}"
+else
+    printf '  Existing Claude Code settings already match the repository.\n'
+fi
+
+printf '  Credentials, sessions, and project history are intentionally not migrated.\n'
 
 log "Restoring SSH host configuration"
 ssh_user_dir="${HOME}/.ssh"

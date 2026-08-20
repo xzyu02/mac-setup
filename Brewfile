@@ -7,6 +7,8 @@ brew "wget"
 brew "tmux"
 brew "vim"
 brew "node"
+# PDF utilities (pdftotext, pdfimages) used by AI PDF reading workflows
+brew "poppler"
 
 # Desktop applications
 cask "google-chrome"

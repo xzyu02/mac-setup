@@ -148,6 +148,24 @@ cp vscode/settings.json "$vscode_user_dir/settings.json"
 VS Code extensions are intentionally not exported or restored because the
 current machine contains extensions that should not be carried to a new Mac.
 
+## Claude Code user settings
+
+The canonical global Claude Code configuration is tracked in
+[`claude/settings.json`](./claude/settings.json). `bootstrap.sh` copies it to
+`~/.claude/settings.json` and saves a different existing file once as
+`settings.json.pre-mac-setup` before replacing it.
+
+To restore it manually from the repository root:
+
+```sh
+mkdir -p ~/.claude
+cp claude/settings.json ~/.claude/settings.json
+```
+
+Only `settings.json` is tracked. Credentials, sessions, shell snapshots,
+project history, and per-project `settings.local.json` files stay on the
+machine that created them and must never be committed.
+
 ## SSH host configuration
 
 The reusable SSH host list is tracked in [`ssh/config`](./ssh/config).

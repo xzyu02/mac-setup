@@ -16,8 +16,9 @@ From the repository root, run:
 [`bootstrap.sh`](./bootstrap.sh) checks for the Xcode Command Line Tools and
 Homebrew, installs them when needed, applies [`Brewfile`](./Brewfile), and
 installs Miniforge from its official installer. It then restores the tracked
-[VS Code settings](./vscode/settings.json) and [SSH host
-configuration](./ssh/config) before verifying the main command-line tools. If
+[VS Code settings](./vscode/settings.json), [Claude Code
+settings](./claude/settings.json), and [SSH host configuration](./ssh/config)
+before verifying the main command-line tools. If
 macOS opens the Xcode Command Line Tools installer, finish the installation and
 run the script again. Optional apps and VS Code extensions are not installed by
 the script. SSH keys and `known_hosts` are never copied.
@@ -81,6 +82,21 @@ available. Their account connectors require interactive authorization and are
 therefore not configured by `bootstrap.sh`. Follow the [AI apps and connectors
 checklist](./MANUAL-SETUP.md#ai-apps-and-connectors) to connect Notion, Gmail,
 Google Calendar, and an Obsidian vault after installation.
+
+The global Claude Code configuration is tracked in
+[`claude/settings.json`](./claude/settings.json) and restored to
+`~/.claude/settings.json` by `bootstrap.sh`. Credentials, sessions, and project
+history are never copied. See the [manual Claude Code
+steps](./MANUAL-SETUP.md#claude-code-user-settings) to restore it by hand.
+
+### PDF tooling
+
+`poppler` provides `pdftotext`, `pdfimages`, and related utilities that AI
+tools use to read PDFs from the command line. Verify it with:
+
+```sh
+pdftotext -v
+```
 
 ### Obsidian Plugins
 
