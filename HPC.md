@@ -152,3 +152,17 @@ export HF_HOME=/n/holylabs/schung_lab/Lab/huggingface_cache
 
 python train.py
 ```
+
+### Job Priority
+
+Slurm job priority is mainly determined by:
+- **Fairshare** — lower recent resource usage gives higher priority.
+- **Job age** — waiting jobs gain priority over time.
+
+So even with low fairshare, queued jobs will eventually move up.
+
+View the pending queue for a partition with:
+
+```bash
+showq -o -p <partition>
+```
