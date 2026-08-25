@@ -41,3 +41,8 @@ When asked to write or update a handoff document (including requests that spell 
 5. **Verification** — commands or manual checks run, their results, and any verification that could not be performed.
 
 Before writing a handoff, inspect the current working tree, `TODOs.md`, and any existing handoff file. Do not copy stale claims from an older handoff without confirming them against the current codebase. Mention uncommitted changes when present.
+
+
+## HPC / FASRC
+
+For any FASRC, Cannon, Kempner, Slurm, GPU, or cluster environment work, read and follow `HPC.md` (@HPC.md).
