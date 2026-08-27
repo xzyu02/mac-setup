@@ -347,6 +347,7 @@
     },
     "git.terminalAuthentication": false,
     "workbench.editor.enablePreview": false,
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
     "[latex]": {
         "editor.defaultFormatter": "James-Yu.latex-workshop",
         "editor.formatOnSave": false

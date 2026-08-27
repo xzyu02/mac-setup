@@ -18,10 +18,11 @@ Homebrew, installs them when needed, applies [`Brewfile`](./Brewfile), and
 installs Miniforge from its official installer. It then restores the tracked
 [VS Code settings](./vscode/settings.json), [Claude Code
 settings](./claude/settings.json), and [SSH host configuration](./ssh/config)
-before verifying the main command-line tools. If
+and installs the required VS Code Remote - SSH and Python extensions before
+verifying the main command-line tools. If
 macOS opens the Xcode Command Line Tools installer, finish the installation and
-run the script again. Optional apps and VS Code extensions are not installed by
-the script. SSH keys and `known_hosts` are never copied.
+run the script again. Other VS Code extensions are not installed by the script.
+SSH keys and `known_hosts` are never copied.
 
 For individual Xcode CLI Tools, Homebrew, Brewfile, troubleshooting, and optional
 app commands, see [`MANUAL-SETUP.md`](./MANUAL-SETUP.md).
@@ -33,8 +34,8 @@ distribution to `~/miniforge3`, initializes `conda` for zsh, and disables
 automatic activation of the `base` environment. Both `conda` and `mamba` are
 available after opening a new terminal.
 
-Miniforge is intentionally installed with its upstream installer instead of a
-Homebrew cask, following the project's installation recommendation. See the
+Miniforge `26.5.3-0` is installed with its pinned upstream installer instead of
+a Homebrew cask, following the project's installation recommendation. See the
 [manual Miniforge steps](./MANUAL-SETUP.md#miniforge) if the bootstrap cannot be
 used.
 

@@ -117,9 +117,10 @@ guide](https://support.claude.com/en/articles/10949351-getting-started-with-loca
 official build for the Mac's architecture:
 
 ```sh
+miniforge_version="26.5.3-0"
 miniforge_installer="$(mktemp "${TMPDIR:-/tmp}/miniforge-installer.XXXXXX")"
 curl -fsSLo "$miniforge_installer" \
-    "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-$(uname -m).sh"
+    "https://github.com/conda-forge/miniforge/releases/download/$miniforge_version/Miniforge3-$miniforge_version-MacOSX-$(uname -m).sh"
 bash "$miniforge_installer" -b -p "$HOME/miniforge3"
 rm -f "$miniforge_installer"
 "$HOME/miniforge3/bin/conda" config --set auto_activate_base false
@@ -128,7 +129,9 @@ rm -f "$miniforge_installer"
 Open a new terminal, then verify `conda --version` and `mamba --version`.
 Miniforge is kept outside `Brewfile` because its upstream project does not
 recommend Homebrew's repackaged installation. Configure the lazy Conda loader
-from [`OH-MY-ZSH.md`](./OH-MY-ZSH.md) instead of running `conda init zsh`.
+from [`OH-MY-ZSH.md`](./OH-MY-ZSH.md) instead of running `conda init zsh`. The
+installer is pinned to Miniforge `26.5.3-0` so new Macs do not silently receive
+a different release when GitHub's `latest` alias changes.
 
 ## VS Code settings
 
@@ -143,10 +146,15 @@ To restore it manually from the repository root:
 vscode_user_dir="$HOME/Library/Application Support/Code/User"
 mkdir -p "$vscode_user_dir"
 cp vscode/settings.json "$vscode_user_dir/settings.json"
+code --install-extension ms-vscode-remote.remote-ssh
+code --install-extension ms-python.python
 ```
 
-VS Code extensions are intentionally not exported or restored because the
-current machine contains extensions that should not be carried to a new Mac.
+The bootstrap installs Microsoft's Remote - SSH and Python extensions so the
+restored SSH hosts appear in Remote Explorer and the tracked Python editor
+settings work. Other VS Code extensions are intentionally not exported or
+restored because the current machine contains extensions that should not be
+carried to a new Mac.
 
 ## Claude Code user settings
 

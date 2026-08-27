@@ -5,6 +5,7 @@ set -euo pipefail
 readonly SETUP_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 readonly BREWFILE_PATH="${SETUP_DIR}/Brewfile"
 readonly MINIFORGE_DIR="${HOME}/miniforge3"
+readonly MINIFORGE_VERSION="26.5.3-0"
 readonly SSH_CONFIG_SOURCE="${SETUP_DIR}/ssh/config"
 readonly VSCODE_SETTINGS_SOURCE="${SETUP_DIR}/vscode/settings.json"
 readonly CLAUDE_SETTINGS_SOURCE="${SETUP_DIR}/claude/settings.json"
@@ -75,7 +76,8 @@ else
     esac
 
     miniforge_installer="$(mktemp "${TMPDIR:-/tmp}/miniforge-installer.XXXXXX")"
-    miniforge_url="https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-${machine_architecture}.sh"
+    miniforge_installer_name="Miniforge3-${MINIFORGE_VERSION}-MacOSX-${machine_architecture}.sh"
+    miniforge_url="https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/${miniforge_installer_name}"
 
     if ! curl -fsSLo "${miniforge_installer}" "${miniforge_url}"; then
         rm -f "${miniforge_installer}"
@@ -124,7 +126,10 @@ else
     printf '  Existing VS Code settings already match the repository.\n'
 fi
 
-printf '  VS Code extensions are intentionally not migrated.\n'
+log "Installing required VS Code extensions"
+code --install-extension ms-vscode-remote.remote-ssh
+code --install-extension ms-python.python
+printf '  Other VS Code extensions are intentionally not migrated.\n'
 
 log "Restoring Claude Code user settings"
 claude_user_dir="${HOME}/.claude"

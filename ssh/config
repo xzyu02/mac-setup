@@ -15,6 +15,14 @@ Host cannon
   ControlMaster auto
   ControlPath ~/.ssh/%r@%h:%p
 
+Host spark-harvard-internal
+  HostName 10.250.197.65
+  User xizheng
+
+Host spark
+  HostName 100.73.231.89
+  User xizheng
+
 Host vsingh-node-0
   HostName 10.131.151.11
   User xizheng
