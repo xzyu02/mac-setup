@@ -10,7 +10,6 @@ set -euo pipefail
 
 readonly SETUP_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 readonly AGENTS_SOURCE="${SETUP_DIR}/AGENTS.md"
-readonly HPC_SOURCE="${SETUP_DIR}/HPC.md"
 
 log() {
     printf '\n==> %s\n' "$1"
@@ -55,10 +54,27 @@ link_doc() {
     printf '  %s -> %s\n' "${target}" "${source}"
 }
 
+# The FASRC reference used to be a separate HPC.md linked alongside AGENTS.md.
+# Its contents are now a section of AGENTS.md, so the old symlink is dangling and
+# is cleaned up here. A real file kept at that path by hand is left alone.
+remove_stale_hpc_link() {
+    local stale="${HOME}/.claude/HPC.md"
+
+    if [[ ! -L "${stale}" ]]; then
+        return 0
+    fi
+
+    if [[ "$(readlink "${stale}")" == "${SETUP_DIR}/HPC.md" ]] || [[ ! -e "${stale}" ]]; then
+        rm "${stale}"
+        printf '  Removed stale symlink %s\n' "${stale}"
+        printf '  The FASRC reference is now a section of AGENTS.md.\n'
+    fi
+}
+
 log "Linking shared agent instruction docs"
 
 link_doc "${AGENTS_SOURCE}" "${HOME}/.claude/CLAUDE.md"
-link_doc "${HPC_SOURCE}" "${HOME}/.claude/HPC.md"
+remove_stale_hpc_link
 
 # Codex reads ~/.codex/AGENTS.md. Only link it where Codex is actually present so
 # the directory is not created on machines that do not use it.

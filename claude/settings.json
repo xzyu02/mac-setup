@@ -16,8 +16,7 @@
       "Bash(uname *)",
       "Bash(command -v *)",
       "Bash(nvidia-smi)",
-      "Bash(nvidia-smi *)",
-      "Read(~/.claude/HPC.md)"
+      "Bash(nvidia-smi *)"
     ],
     "deny": [
       "Read(.env)",

@@ -3,8 +3,8 @@
 # FASRC Cannon / Kempner setup.
 #
 # Links the shared agent instruction docs on a cluster login node and checks the
-# checkout location against the path rules in HPC.md. Installs nothing and
-# submits no jobs.
+# checkout location against the path rules in the FASRC reference section of
+# AGENTS.md. Installs nothing and submits no jobs.
 
 set -euo pipefail
 
@@ -29,7 +29,7 @@ if [[ ! -f "${LINK_AGENT_DOCS_SCRIPT}" ]]; then
 fi
 
 log "Detected environment: FASRC"
-printf '  Case 3 routing applies: follow HPC.md directly.\n'
+printf '  Case 3 routing applies: follow the FASRC reference in AGENTS.md.\n'
 printf '  Never run GPU or heavy compute on a login node; use salloc or sbatch.\n'
 
 log "Checking the checkout location"
@@ -37,7 +37,8 @@ if [[ "${SETUP_DIR}" == "${LAB_CODE_DIR}"/* ]]; then
     printf '  %s is in the persistent lab code area.\n' "${SETUP_DIR}"
 else
     printf '  Warning: %s is outside %s.\n' "${SETUP_DIR}" "${LAB_CODE_DIR}"
-    printf '  HPC.md keeps code in the lab folder and $HOME for dotfiles only.\n'
+    printf '  The FASRC reference keeps code in the lab folder and $HOME for\n'
+    printf '  dotfiles only.\n'
 fi
 
 bash "${LINK_AGENT_DOCS_SCRIPT}"

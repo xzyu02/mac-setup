@@ -1,6 +1,6 @@
 # TODOs
 
-Last updated: 2026-08-29 23:55:42 EDT
+Last updated: 2026-08-30 00:03:17 EDT
 
 ## Planned features
 
@@ -9,6 +9,7 @@ Last updated: 2026-08-29 23:55:42 EDT
 
 ## Completed / fixed features
 
+- [x] Merged the FASRC Cannon / Kempner reference into `AGENTS.md` as an inline section and deleted the separate `HPC.md`, so the cluster paths, accounts, partitions, Slurm options, and environment rules load once per session instead of needing an on-demand read that a context compaction can drop. All content was carried over verbatim. `link-agent-docs.sh` no longer links `HPC.md` and now removes the stale `~/.claude/HPC.md` symlink it previously installed, while leaving a hand-kept real file at that path untouched. The obsolete `Read(~/.claude/HPC.md)` pre-approval was dropped from `claude/settings.json`.
 - [x] Pre-approved the environment detection commands (`uname`, `command -v`, `nvidia-smi`, in both bare and argument forms) in the tracked `claude/settings.json`, so the compute environment routing rules can identify Mac, Spark, or FASRC in headless `-p` runs where a denied permission prompt previously blocked detection.
 - [x] Replaced the broken `@` import of the HPC reference in `AGENTS.md` with an explicit instruction to read `~/.claude/HPC.md` before naming any partition, account, `#SBATCH` option, cluster path, or environment, and pre-approved `Read(~/.claude/HPC.md)` in the tracked `claude/settings.json`. Spark testing showed the nested import never expanded — the same was true in-repo on the Mac with no symlink involved — so Claude knew heavy jobs route to FASRC but could not name a partition or account. An earlier attempt to fix this by switching to the home-relative `@~/.claude/HPC.md` path did not work, because the path was never the cause.
 - [x] Reported unified memory in `setup-spark.sh` using the total system memory when `nvidia-smi` gives no discrete VRAM figure, so GB10 hardware shows a usable local memory bound instead of `[N/A]`.

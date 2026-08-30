@@ -68,19 +68,23 @@ Node after installation.
 ### Shared agent instructions
 
 [`AGENTS.md`](./AGENTS.md) holds the shared Codex and Claude Code instructions,
-including the compute environment routing rules, and [`HPC.md`](./HPC.md) holds
-the FASRC Cannon / Kempner reference. This repository is the single source of
-truth for both files on every machine: the Mac, the Spark machine, and FASRC.
+including the compute environment routing rules and the FASRC Cannon / Kempner
+reference. This repository is the single source of truth for that file on every
+machine: the Mac, the Spark machine, and FASRC.
 
-[`link-agent-docs.sh`](./link-agent-docs.sh) symlinks them into the user-level
+[`link-agent-docs.sh`](./link-agent-docs.sh) symlinks it into the user-level
 configuration directories so the instructions apply in every project, not only
 in this repository:
 
 ```text
 ~/.claude/CLAUDE.md  ->  AGENTS.md
-~/.claude/HPC.md     ->  HPC.md
 ~/.codex/AGENTS.md   ->  AGENTS.md   (only when Codex is present)
 ```
+
+The FASRC reference is kept inline in `AGENTS.md` rather than in a separate
+file. Instruction files are loaded once per session, so an inline section is
+always in context, while a separate file has to be read on demand and can drop
+out of a long session after a context compaction.
 
 Symlinks are used instead of copies so `git pull` is the only step needed to
 update a machine. An existing regular file at any target is backed up once to
@@ -106,7 +110,7 @@ accessories and applications on a new Mac only, and must not be run on the Spark
 machine or on FASRC.
 
 On FASRC, clone into the persistent lab code area rather than `$HOME`, following
-the path rules in [`HPC.md`](./HPC.md):
+the path rules in the FASRC reference section of [`AGENTS.md`](./AGENTS.md):
 
 ```sh
 git clone <repo-url> /n/holylabs/schung_lab/Lab/xizheng/mac-setup
