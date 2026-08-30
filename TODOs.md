@@ -1,6 +1,6 @@
 # TODOs
 
-Last updated: 2026-08-29 23:46:35 EDT
+Last updated: 2026-08-29 23:51:50 EDT
 
 ## Planned features
 
@@ -9,7 +9,7 @@ Last updated: 2026-08-29 23:46:35 EDT
 
 ## Completed / fixed features
 
-- [x] Fixed the HPC reference import in `AGENTS.md`, which silently failed to inline when the file was loaded through the `~/.claude/CLAUDE.md` symlink, leaving Claude on the Spark machine aware that heavy jobs route to FASRC but unable to name a partition or account. The import now uses the home-relative `@~/.claude/HPC.md` path installed by `link-agent-docs.sh`, which is identical on every machine.
+- [x] Replaced the broken `@` import of the HPC reference in `AGENTS.md` with an explicit instruction to read `~/.claude/HPC.md` before naming any partition, account, `#SBATCH` option, cluster path, or environment, and pre-approved `Read(~/.claude/HPC.md)` in the tracked `claude/settings.json`. Spark testing showed the nested import never expanded — the same was true in-repo on the Mac with no symlink involved — so Claude knew heavy jobs route to FASRC but could not name a partition or account. An earlier attempt to fix this by switching to the home-relative `@~/.claude/HPC.md` path did not work, because the path was never the cause.
 - [x] Reported unified memory in `setup-spark.sh` using the total system memory when `nvidia-smi` gives no discrete VRAM figure, so GB10 hardware shows a usable local memory bound instead of `[N/A]`.
 - [x] Added per-device setup scripts (`setup-mac.sh`, `setup-spark.sh`, `setup-hpc.sh`) that each refuse to run on the wrong machine and delegate to a shared `link-agent-docs.sh`, which symlinks `AGENTS.md` and `HPC.md` into `~/.claude/` and `~/.codex/` so the instructions apply in every project and `git pull` is the only update step. `bootstrap.sh` remains a Mac-only accessory installer.
 - [x] Replaced the single-line HPC pointer in `AGENTS.md` with compute environment routing rules that detect Mac, Spark, or FASRC and define where work may run in each case: light edits and CPU-light checks only on the Mac, sub-15-minute GPU debug runs on Spark, heavy or fan-out jobs routed to FASRC `sbatch` with permission, and `HPC.md` followed directly on the cluster.

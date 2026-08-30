@@ -95,14 +95,27 @@ before the first submission of a task, then report job IDs and log paths.
 
 ### Case 3 — On FASRC (Cannon / Kempner)
 
-Follow the HPC reference (@~/.claude/HPC.md) directly.
-
 - Never run GPU or heavy compute on a login node; use `salloc` or `sbatch`.
-- Use its paths, accounts, partitions, and env conventions as written.
+- Use the HPC reference's paths, accounts, partitions, and environment
+  conventions as written.
 
-The HPC reference (@~/.claude/HPC.md) is the authority on paths, accounts,
-partitions, Slurm options, and Python environments in all three cases,
-including when writing job scripts from a Mac or Spark machine. It is imported
-by home-relative path because `link-agent-docs.sh` installs it at
-`~/.claude/HPC.md` on every machine; a bare relative import does not resolve
-when this file is loaded through a symlink.
+### The HPC reference
+
+`~/.claude/HPC.md` is the authority on paths, accounts, partitions, Slurm
+options, and Python environments. `link-agent-docs.sh` installs it at that path
+on every machine, so it is available from the Mac and the Spark machine as well
+as on the cluster.
+
+Read `~/.claude/HPC.md` with the Read tool before doing any of the following,
+and do not answer from memory or guesswork:
+
+- Naming a partition, account, or `#SBATCH` option.
+- Writing or editing an `sbatch` script or an `salloc` command.
+- Choosing cluster paths for code, environments, checkpoints, or logs.
+- Creating or activating a cluster Python environment.
+
+Do not rely on an `@` import for this file: nested imports from within an
+imported instruction file are not expanded, so its contents are not in context
+until it is actually read. The tracked `claude/settings.json` pre-approves
+`Read(~/.claude/HPC.md)`, so no permission prompt is expected wherever those
+settings are installed.
