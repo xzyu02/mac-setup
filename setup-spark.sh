@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+# Spark machine setup.
+#
+# Links the shared agent instruction docs and reports the local GPU tooling.
+# Installs nothing: the Spark machine is provisioned separately.
+
+set -euo pipefail
+
+readonly SETUP_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+readonly LINK_AGENT_DOCS_SCRIPT="${SETUP_DIR}/link-agent-docs.sh"
+
+log() {
+    printf '\n==> %s\n' "$1"
+}
+
+if [[ "$(uname -s)" != "Linux" ]]; then
+    printf 'setup-spark.sh supports Linux only.\n' >&2
+    printf 'Use setup-mac.sh on the Mac.\n' >&2
+    exit 1
+fi
+
+if command -v sbatch >/dev/null 2>&1; then
+    printf 'Slurm was detected, so this looks like a cluster node, not Spark.\n' >&2
+    printf 'Use setup-hpc.sh instead.\n' >&2
+    exit 1
+fi
+
+if [[ ! -f "${LINK_AGENT_DOCS_SCRIPT}" ]]; then
+    printf 'Agent doc link script not found at %s.\n' "${LINK_AGENT_DOCS_SCRIPT}" >&2
+    exit 1
+fi
+
+log "Detected environment: Spark"
+printf '  Case 2 routing applies: local GPU work under 15 minutes stays local.\n'
+printf '  Heavy, long, or fan-out jobs go to FASRC sbatch.\n'
+
+bash "${LINK_AGENT_DOCS_SCRIPT}"
+
+log "Checking local GPU"
+if command -v nvidia-smi >/dev/null 2>&1; then
+    nvidia-smi --query-gpu=name,memory.total,driver_version \
+        --format=csv,noheader | sed 's/^/  /'
+else
+    printf '  nvidia-smi missing; local GPU work is not available.\n'
+fi
+
+log "Checking agent tooling"
+for command_name in git python3 claude codex; do
+    if command_path="$(command -v "${command_name}" 2>/dev/null)"; then
+        printf '  %-8s %s\n' "${command_name}" "${command_path}"
+    else
+        printf '  %-8s missing\n' "${command_name}"
+    fi
+done
+
+printf '\nSpark setup completed.\n'

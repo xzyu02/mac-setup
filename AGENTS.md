@@ -43,6 +43,63 @@ When asked to write or update a handoff document (including requests that spell 
 Before writing a handoff, inspect the current working tree, `TODOs.md`, and any existing handoff file. Do not copy stale claims from an older handoff without confirming them against the current codebase. Mention uncommitted changes when present.
 
 
-## HPC / FASRC
+## Compute environment routing
 
-For any FASRC, Cannon, Kempner, Slurm, GPU, or cluster environment work, read and follow `HPC.md` (@HPC.md).
+Before starting any GPU, training, or large-scale compute work, determine the
+current environment and follow the matching case. Detect it, do not assume:
+
+- **Mac** — `uname -s` is `Darwin`.
+- **Spark** — Linux with a local NVIDIA GPU (`nvidia-smi` succeeds) and no
+  Slurm (`sbatch` not on `PATH`).
+- **FASRC** — Slurm is available (`sbatch` on `PATH`) or `/n/holylabs` exists.
+
+State the detected environment before proposing where a job should run.
+Never silently downgrade a GPU job to CPU, shrink a model, or cut steps to make
+it fit locally. If the work does not fit the current machine, say so and ask.
+
+### Case 1 — Local Mac
+
+The Mac is for light work only: code edits, refactors, unit tests, small
+CPU-light checks, dry runs, and config/shape inspection.
+
+- Do not run GPU jobs, and do not run heavy CPU jobs either — no training, no
+  large data processing, no long-running or memory-hungry work.
+- Do not install CUDA-only dependencies on the Mac.
+- For anything heavier, stop and ask permission before touching FASRC. Present
+  the plan first: partition, GPU count, time limit, and target paths.
+- Never `ssh` to the cluster, transfer data, or `sbatch` without explicit
+  approval in the current session. Approval for one job is not approval for the
+  next.
+- Writing HPC scripts locally is fine and encouraged — authoring a `sbatch`
+  script is not the same as submitting it.
+
+### Case 2 — Spark machine (local GPU available)
+
+Keep local anything that fits the local GPU and finishes in well under
+15 minutes:
+
+- Correctness and smoke tests, single-config debug runs, shape/dtype checks.
+- Short profiling and small-batch inference.
+
+Route to FASRC `sbatch` when the job is heavy or fans out:
+
+- Full training or fine-tuning runs, and long evaluation suites.
+- Hyperparameter sweeps, seed sweeps, ablations, or anything that benefits from
+  many concurrent jobs.
+- Multi-GPU or multi-node work, or a model/batch that does not fit local memory.
+- Anything expected to exceed 15 minutes, or that should survive disconnection.
+
+Before submitting, confirm the local run passed at small scale — use Spark as
+the debug tier so cluster jobs do not fail on trivial errors. Ask permission
+before the first submission of a task, then report job IDs and log paths.
+
+### Case 3 — On FASRC (Cannon / Kempner)
+
+Follow `HPC.md` (@HPC.md) directly.
+
+- Never run GPU or heavy compute on a login node; use `salloc` or `sbatch`.
+- Use `HPC.md` paths, accounts, partitions, and env conventions as written.
+
+`HPC.md` (@HPC.md) is the authority on paths, accounts, partitions, Slurm
+options, and Python environments in all three cases, including when writing
+job scripts from a Mac or Spark machine.

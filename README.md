@@ -65,10 +65,63 @@ Homebrew normally installs the executables under `/opt/homebrew/bin` on Apple
 Silicon and `/usr/local/bin` on Intel Macs. Fully restart any GUI app that needs
 Node after installation.
 
-### Repository Instructions
+### Shared agent instructions
 
-Project-specific Codex instructions are kept in [`AGENTS.md`](./AGENTS.md) and
-should be synced with the rest of this repository.
+[`AGENTS.md`](./AGENTS.md) holds the shared Codex and Claude Code instructions,
+including the compute environment routing rules, and [`HPC.md`](./HPC.md) holds
+the FASRC Cannon / Kempner reference. This repository is the single source of
+truth for both files on every machine: the Mac, the Spark machine, and FASRC.
+
+[`link-agent-docs.sh`](./link-agent-docs.sh) symlinks them into the user-level
+configuration directories so the instructions apply in every project, not only
+in this repository:
+
+```text
+~/.claude/CLAUDE.md  ->  AGENTS.md
+~/.claude/HPC.md     ->  HPC.md
+~/.codex/AGENTS.md   ->  AGENTS.md   (only when Codex is present)
+```
+
+Symlinks are used instead of copies so `git pull` is the only step needed to
+update a machine. An existing regular file at any target is backed up once to
+`<target>.pre-mac-setup` before it is replaced, and re-running the script is
+safe.
+
+#### Per-device setup scripts
+
+Each device has its own setup script, and each refuses to run on the wrong kind
+of machine. Run the matching one once after cloning:
+
+| Device | Script | Purpose |
+|---|---|---|
+| Mac | [`setup-mac.sh`](./setup-mac.sh) | Links the agent docs |
+| Spark | [`setup-spark.sh`](./setup-spark.sh) | Links the agent docs, reports the local GPU |
+| FASRC | [`setup-hpc.sh`](./setup-hpc.sh) | Links the agent docs, checks the checkout path and shared HF cache |
+
+All three delegate the linking to `link-agent-docs.sh`, which is the only
+cross-platform piece. None of them install packages or submit jobs.
+
+[`bootstrap.sh`](./bootstrap.sh) is separate and unrelated: it installs
+accessories and applications on a new Mac only, and must not be run on the Spark
+machine or on FASRC.
+
+On FASRC, clone into the persistent lab code area rather than `$HOME`, following
+the path rules in [`HPC.md`](./HPC.md):
+
+```sh
+git clone <repo-url> /n/holylabs/schung_lab/Lab/xizheng/mac-setup
+```
+
+The per-device script only needs to run once per machine. After that, keep each
+machine current with a plain pull. Adding a shell alias makes this easy to
+remember:
+
+```sh
+alias agentsync='git -C ~/dev/mac-setup pull'
+```
+
+The symlinks always match the local checkout, so the only drift to watch for is
+a machine whose checkout is behind the remote.
 
 ### AI Desktop Apps and CLIs
 
