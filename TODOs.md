@@ -1,6 +1,6 @@
 # TODOs
 
-Last updated: 2026-08-29 23:36:40 EDT
+Last updated: 2026-08-29 23:46:35 EDT
 
 ## Planned features
 
@@ -9,6 +9,8 @@ Last updated: 2026-08-29 23:36:40 EDT
 
 ## Completed / fixed features
 
+- [x] Fixed the HPC reference import in `AGENTS.md`, which silently failed to inline when the file was loaded through the `~/.claude/CLAUDE.md` symlink, leaving Claude on the Spark machine aware that heavy jobs route to FASRC but unable to name a partition or account. The import now uses the home-relative `@~/.claude/HPC.md` path installed by `link-agent-docs.sh`, which is identical on every machine.
+- [x] Reported unified memory in `setup-spark.sh` using the total system memory when `nvidia-smi` gives no discrete VRAM figure, so GB10 hardware shows a usable local memory bound instead of `[N/A]`.
 - [x] Added per-device setup scripts (`setup-mac.sh`, `setup-spark.sh`, `setup-hpc.sh`) that each refuse to run on the wrong machine and delegate to a shared `link-agent-docs.sh`, which symlinks `AGENTS.md` and `HPC.md` into `~/.claude/` and `~/.codex/` so the instructions apply in every project and `git pull` is the only update step. `bootstrap.sh` remains a Mac-only accessory installer.
 - [x] Replaced the single-line HPC pointer in `AGENTS.md` with compute environment routing rules that detect Mac, Spark, or FASRC and define where work may run in each case: light edits and CPU-light checks only on the Mac, sub-15-minute GPU debug runs on Spark, heavy or fan-out jobs routed to FASRC `sbatch` with permission, and `HPC.md` followed directly on the cluster.
 - [x] Updated the default Homebrew desktop app set to add Hidden Bar and Tailscale while no longer installing Docker or MotrixNext.

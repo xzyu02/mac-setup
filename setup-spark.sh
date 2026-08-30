@@ -39,8 +39,26 @@ bash "${LINK_AGENT_DOCS_SCRIPT}"
 
 log "Checking local GPU"
 if command -v nvidia-smi >/dev/null 2>&1; then
-    nvidia-smi --query-gpu=name,memory.total,driver_version \
-        --format=csv,noheader | sed 's/^/  /'
+    nvidia-smi --query-gpu=name,driver_version --format=csv,noheader |
+        sed 's/^/  /'
+
+    gpu_memory="$(nvidia-smi --query-gpu=memory.total --format=csv,noheader |
+        head -1)"
+
+    # Unified-memory parts such as GB10 report no discrete VRAM. There the total
+    # system memory is the GPU-accessible pool, and it is what actually bounds a
+    # local job under the Case 2 routing rules.
+    if [[ "${gpu_memory}" == *N/A* ]]; then
+        if [[ -r /proc/meminfo ]]; then
+            memory_kb="$(awk '/^MemTotal:/ { print $2 }' /proc/meminfo)"
+            printf '  unified memory, %s GiB total system memory\n' \
+                "$(( memory_kb / 1024 / 1024 ))"
+        else
+            printf '  unified memory, total unknown\n'
+        fi
+    else
+        printf '  %s dedicated GPU memory\n' "${gpu_memory}"
+    fi
 else
     printf '  nvidia-smi missing; local GPU work is not available.\n'
 fi

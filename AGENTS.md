@@ -95,11 +95,14 @@ before the first submission of a task, then report job IDs and log paths.
 
 ### Case 3 — On FASRC (Cannon / Kempner)
 
-Follow `HPC.md` (@HPC.md) directly.
+Follow the HPC reference (@~/.claude/HPC.md) directly.
 
 - Never run GPU or heavy compute on a login node; use `salloc` or `sbatch`.
-- Use `HPC.md` paths, accounts, partitions, and env conventions as written.
+- Use its paths, accounts, partitions, and env conventions as written.
 
-`HPC.md` (@HPC.md) is the authority on paths, accounts, partitions, Slurm
-options, and Python environments in all three cases, including when writing
-job scripts from a Mac or Spark machine.
+The HPC reference (@~/.claude/HPC.md) is the authority on paths, accounts,
+partitions, Slurm options, and Python environments in all three cases,
+including when writing job scripts from a Mac or Spark machine. It is imported
+by home-relative path because `link-agent-docs.sh` installs it at
+`~/.claude/HPC.md` on every machine; a bare relative import does not resolve
+when this file is loaded through a symlink.

@@ -120,6 +120,10 @@ remember:
 alias agentsync='git -C ~/dev/mac-setup pull'
 ```
 
+Point the alias at the local checkout on each machine, since the clone path
+differs: `~/dev/mac-setup` on the Mac, `~/mac-setup` on the Spark machine, and
+the lab code area on FASRC.
+
 The symlinks always match the local checkout, so the only drift to watch for is
 a machine whose checkout is behind the remote.
 
