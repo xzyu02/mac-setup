@@ -12,6 +12,11 @@
       "Bash(cd *)",
       "Bash(rg *)",
       "Bash(tree *)",
+      "Bash(uname)",
+      "Bash(uname *)",
+      "Bash(command -v *)",
+      "Bash(nvidia-smi)",
+      "Bash(nvidia-smi *)",
       "Read(~/.claude/HPC.md)"
     ],
     "deny": [
