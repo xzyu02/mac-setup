@@ -16,7 +16,9 @@
       "Bash(uname *)",
       "Bash(command -v *)",
       "Bash(nvidia-smi)",
-      "Bash(nvidia-smi *)"
+      "Bash(nvidia-smi *)",
+      "WebFetch",
+      "WebSearch"
     ],
     "deny": [
       "Read(.env)",

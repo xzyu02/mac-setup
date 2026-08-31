@@ -2,7 +2,7 @@
 
 # FASRC Cannon / Kempner setup.
 #
-# Links the shared agent instruction docs on a cluster login node and checks the
+# Links the shared agent configuration on a cluster login node and checks the
 # checkout location against the path rules in the FASRC reference section of
 # AGENTS.md. Installs nothing and submits no jobs.
 
@@ -24,7 +24,8 @@ if ! command -v sbatch >/dev/null 2>&1 && [[ ! -d /n/holylabs ]]; then
 fi
 
 if [[ ! -f "${LINK_AGENT_DOCS_SCRIPT}" ]]; then
-    printf 'Agent doc link script not found at %s.\n' "${LINK_AGENT_DOCS_SCRIPT}" >&2
+    printf 'Agent configuration link script not found at %s.\n' \
+        "${LINK_AGENT_DOCS_SCRIPT}" >&2
     exit 1
 fi
 

@@ -16,10 +16,10 @@ From the repository root, run:
 [`bootstrap.sh`](./bootstrap.sh) checks for the Xcode Command Line Tools and
 Homebrew, installs them when needed, applies [`Brewfile`](./Brewfile), and
 installs Miniforge from its official installer. It then restores the tracked
-[VS Code settings](./vscode/settings.json), [Claude Code
-settings](./claude/settings.json), and [SSH host configuration](./ssh/config)
-and installs the required VS Code Remote - SSH and Python extensions before
-verifying the main command-line tools. If
+[VS Code settings](./vscode/settings.json) and [SSH host
+configuration](./ssh/config), links the [Claude Code
+settings](./claude/settings.json), and installs the required VS Code Remote -
+SSH and Python extensions before verifying the main command-line tools. If
 macOS opens the Xcode Command Line Tools installer, finish the installation and
 run the script again. Other VS Code extensions are not installed by the script.
 SSH keys and `known_hosts` are never copied.
@@ -65,19 +65,20 @@ Homebrew normally installs the executables under `/opt/homebrew/bin` on Apple
 Silicon and `/usr/local/bin` on Intel Macs. Fully restart any GUI app that needs
 Node after installation.
 
-### Shared agent instructions
+### Shared agent configuration
 
 [`AGENTS.md`](./AGENTS.md) holds the shared Codex and Claude Code instructions,
 including the compute environment routing rules and the FASRC Cannon / Kempner
 reference. This repository is the single source of truth for that file on every
 machine: the Mac, the Spark machine, and FASRC.
 
-[`link-agent-docs.sh`](./link-agent-docs.sh) symlinks it into the user-level
-configuration directories so the instructions apply in every project, not only
-in this repository:
+[`link-agent-docs.sh`](./link-agent-docs.sh) symlinks the instructions and the
+tracked Claude Code settings into the user-level configuration directories so
+they stay current in every project:
 
 ```text
 ~/.claude/CLAUDE.md  ->  AGENTS.md
+~/.claude/settings.json -> claude/settings.json
 ~/.codex/AGENTS.md   ->  AGENTS.md   (only when Codex is present)
 ```
 
@@ -98,16 +99,16 @@ of machine. Run the matching one once after cloning:
 
 | Device | Script | Purpose |
 |---|---|---|
-| Mac | [`setup-mac.sh`](./setup-mac.sh) | Links the agent docs |
-| Spark | [`setup-spark.sh`](./setup-spark.sh) | Links the agent docs, reports the local GPU |
-| FASRC | [`setup-hpc.sh`](./setup-hpc.sh) | Links the agent docs, checks the checkout path and shared HF cache |
+| Mac | [`setup-mac.sh`](./setup-mac.sh) | Links the agent instructions and Claude settings |
+| Spark | [`setup-spark.sh`](./setup-spark.sh) | Links the agent configuration, reports the local GPU |
+| FASRC | [`setup-hpc.sh`](./setup-hpc.sh) | Links the agent configuration, checks the checkout path and shared HF cache |
 
 All three delegate the linking to `link-agent-docs.sh`, which is the only
 cross-platform piece. None of them install packages or submit jobs.
 
-[`bootstrap.sh`](./bootstrap.sh) is separate and unrelated: it installs
-accessories and applications on a new Mac only, and must not be run on the Spark
-machine or on FASRC.
+[`bootstrap.sh`](./bootstrap.sh) installs accessories and applications on a new
+Mac and invokes the same linking helper. It must not be run on the Spark machine
+or on FASRC.
 
 On FASRC, clone into the persistent lab code area rather than `$HOME`, following
 the path rules in the FASRC reference section of [`AGENTS.md`](./AGENTS.md):
@@ -146,10 +147,11 @@ checklist](./MANUAL-SETUP.md#ai-apps-and-connectors) to connect Notion, Gmail,
 Google Calendar, and an Obsidian vault after installation.
 
 The global Claude Code configuration is tracked in
-[`claude/settings.json`](./claude/settings.json) and restored to
-`~/.claude/settings.json` by `bootstrap.sh`. Credentials, sessions, and project
-history are never copied. See the [manual Claude Code
-steps](./MANUAL-SETUP.md#claude-code-user-settings) to restore it by hand.
+[`claude/settings.json`](./claude/settings.json) and symlinked to
+`~/.claude/settings.json` by every per-device setup script and by `bootstrap.sh`.
+Credentials, sessions, and project history are never copied. See the [manual
+Claude Code steps](./MANUAL-SETUP.md#claude-code-user-settings) to link it by
+hand.
 
 ### PDF tooling
 

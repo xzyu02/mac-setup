@@ -111,7 +111,7 @@ summary.
 
 - User: `xzyu`; lab folder: **`xizheng`** — do not use `$USER` in lab paths.
 - Code / envs / projects: `/n/holylabs/schung_lab/Lab/xizheng/`
-- Job I/O / checkpoints / logs: `/n/netscratch/schung_lab/xizheng/`
+- Job I/O / checkpoints / logs: `/n/netscratch/schung_lab/Lab/xizheng/`
 - Shared HF cache:
 
 ```bash
@@ -249,7 +249,7 @@ Typical job:
 #SBATCH -c 24
 #SBATCH --mem=360G
 #SBATCH -t 0-04:00
-#SBATCH -o /n/netscratch/schung_lab/xizheng/logs/%x_%j.out
+#SBATCH -o /n/netscratch/schung_lab/Lab/xizheng/logs/%x_%j.out
 
 module load python
 source activate /n/holylabs/schung_lab/Lab/xizheng/envs/<name>

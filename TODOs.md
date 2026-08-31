@@ -1,6 +1,6 @@
 # TODOs
 
-Last updated: 2026-08-30 00:03:17 EDT
+Last updated: 2026-08-30 23:32:58 EDT
 
 ## Planned features
 
@@ -9,6 +9,9 @@ Last updated: 2026-08-30 00:03:17 EDT
 
 ## Completed / fixed features
 
+- [x] Pre-approved Claude Code `WebFetch` and `WebSearch` in the tracked `claude/settings.json`, so every machine receiving the symlinked global settings has the same web-access permissions.
+- [x] Corrected the FASRC job I/O, checkpoint, and log path in `AGENTS.md` and its sample Slurm script by adding the missing `Lab` directory, so they use the writable `/n/netscratch/schung_lab/Lab/xizheng/` path; `CLAUDE.md` and the global Claude instructions inherit the fix from `AGENTS.md`.
+- [x] Symlinked the tracked `claude/settings.json` into `~/.claude/settings.json` from every per-device setup script and the Mac bootstrap, using the shared idempotent link helper so `git pull` propagates settings changes automatically while preserving an existing regular file once as `settings.json.pre-mac-setup`.
 - [x] Merged the FASRC Cannon / Kempner reference into `AGENTS.md` as an inline section and deleted the separate `HPC.md`, so the cluster paths, accounts, partitions, Slurm options, and environment rules load once per session instead of needing an on-demand read that a context compaction can drop. All content was carried over verbatim. `link-agent-docs.sh` no longer links `HPC.md` and now removes the stale `~/.claude/HPC.md` symlink it previously installed, while leaving a hand-kept real file at that path untouched. The obsolete `Read(~/.claude/HPC.md)` pre-approval was dropped from `claude/settings.json`.
 - [x] Pre-approved the environment detection commands (`uname`, `command -v`, `nvidia-smi`, in both bare and argument forms) in the tracked `claude/settings.json`, so the compute environment routing rules can identify Mac, Spark, or FASRC in headless `-p` runs where a denied permission prompt previously blocked detection.
 - [x] Replaced the broken `@` import of the HPC reference in `AGENTS.md` with an explicit instruction to read `~/.claude/HPC.md` before naming any partition, account, `#SBATCH` option, cluster path, or environment, and pre-approved `Read(~/.claude/HPC.md)` in the tracked `claude/settings.json`. Spark testing showed the nested import never expanded — the same was true in-repo on the Mac with no symlink involved — so Claude knew heavy jobs route to FASRC but could not name a partition or account. An earlier attempt to fix this by switching to the home-relative `@~/.claude/HPC.md` path did not work, because the path was never the cause.

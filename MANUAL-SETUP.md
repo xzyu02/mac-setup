@@ -159,15 +159,14 @@ carried to a new Mac.
 ## Claude Code user settings
 
 The canonical global Claude Code configuration is tracked in
-[`claude/settings.json`](./claude/settings.json). `bootstrap.sh` copies it to
-`~/.claude/settings.json` and saves a different existing file once as
-`settings.json.pre-mac-setup` before replacing it.
+[`claude/settings.json`](./claude/settings.json). The per-device setup scripts
+and `bootstrap.sh` symlink it to `~/.claude/settings.json`. An existing regular
+file is saved once as `settings.json.pre-mac-setup` before it is replaced.
 
 To restore it manually from the repository root:
 
 ```sh
-mkdir -p ~/.claude
-cp claude/settings.json ~/.claude/settings.json
+./link-agent-docs.sh
 ```
 
 Only `settings.json` is tracked. Credentials, sessions, shell snapshots,

@@ -2,7 +2,7 @@
 
 # Mac agent configuration.
 #
-# Links the shared agent instruction docs on the local Mac. Accessory and
+# Links the shared agent configuration on the local Mac. Accessory and
 # application installation is handled separately by bootstrap.sh.
 
 set -euo pipefail
@@ -21,7 +21,8 @@ if [[ "$(uname -s)" != "Darwin" ]]; then
 fi
 
 if [[ ! -f "${LINK_AGENT_DOCS_SCRIPT}" ]]; then
-    printf 'Agent doc link script not found at %s.\n' "${LINK_AGENT_DOCS_SCRIPT}" >&2
+    printf 'Agent configuration link script not found at %s.\n' \
+        "${LINK_AGENT_DOCS_SCRIPT}" >&2
     exit 1
 fi
 

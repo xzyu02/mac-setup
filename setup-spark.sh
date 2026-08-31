@@ -2,7 +2,7 @@
 
 # Spark machine setup.
 #
-# Links the shared agent instruction docs and reports the local GPU tooling.
+# Links the shared agent configuration and reports the local GPU tooling.
 # Installs nothing: the Spark machine is provisioned separately.
 
 set -euo pipefail
@@ -27,7 +27,8 @@ if command -v sbatch >/dev/null 2>&1; then
 fi
 
 if [[ ! -f "${LINK_AGENT_DOCS_SCRIPT}" ]]; then
-    printf 'Agent doc link script not found at %s.\n' "${LINK_AGENT_DOCS_SCRIPT}" >&2
+    printf 'Agent configuration link script not found at %s.\n' \
+        "${LINK_AGENT_DOCS_SCRIPT}" >&2
     exit 1
 fi
 
