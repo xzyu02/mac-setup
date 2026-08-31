@@ -122,6 +122,34 @@ Use `holylabs` for persistent code/project files, not training output.
 Use `netscratch` for job output; retention is ~90 days.  
 Keep `$HOME` for dotfiles/config only.
 
+#### Path Shortcuts
+
+Two symlinks in `$HOME` point at the two lab areas, with matching `cd` aliases:
+
+| Shortcut | Alias | Target |
+|---|---|---|
+| `~/lab` | `cdlab` | `/n/holylabs/schung_lab/Lab/xizheng/` |
+| `~/scratch` | `cdscratch` | `/n/netscratch/schung_lab/Lab/xizheng/` |
+
+Create the symlinks once on a login node:
+
+```bash
+ln -sfn /n/holylabs/schung_lab/Lab/xizheng "$HOME/lab"
+ln -sfn /n/netscratch/schung_lab/Lab/xizheng "$HOME/scratch"
+```
+
+And define the aliases in `~/.bashrc`:
+
+```bash
+alias cdlab='cd ~/lab'
+alias cdscratch='cd ~/scratch'
+```
+
+These are conveniences for interactive shells only. Keep writing the full
+`/n/holylabs/...` and `/n/netscratch/...` paths in `#SBATCH` directives, job
+scripts, and config files — Slurm does not expand `~` in options such as
+`#SBATCH -o`, and aliases do not exist in non-interactive job shells.
+
 ### Python Environments
 
 Mamba is provided by:
@@ -257,6 +285,33 @@ export HF_HOME=/n/holylabs/schung_lab/Lab/huggingface_cache
 
 python train.py
 ```
+
+#### Checking Jobs and Resource Usage
+
+List your own pending and running jobs:
+
+```bash
+squeue --me
+```
+
+Review finished jobs — state, elapsed time, exit code, memory high-water mark:
+
+```bash
+sacct -j <job_id>
+sacct -j <job_id> --format=JobID,JobName,Partition,State,Elapsed,ReqMem,MaxRSS,ExitCode
+sacct -S 2026-08-01                      # everything since a date
+```
+
+Check what a job actually consumed with:
+
+```bash
+jobstats <job_id>
+```
+
+It reports requested versus used CPU and memory for a running or completed job.
+Use it before resubmitting a job to right-size `-c` and `--mem` instead of
+guessing: over-requesting memory or cores lowers fairshare and lengthens the
+queue wait, while under-requesting memory gets the job killed.
 
 #### Job Priority
 

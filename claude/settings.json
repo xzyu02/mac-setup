@@ -17,6 +17,8 @@
       "Bash(command -v *)",
       "Bash(nvidia-smi)",
       "Bash(nvidia-smi *)",
+      "Bash(pdftotext)",
+      "Bash(pdftotext *)",
       "WebFetch",
       "WebSearch"
     ],

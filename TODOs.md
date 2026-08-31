@@ -1,6 +1,6 @@
 # TODOs
 
-Last updated: 2026-08-30 23:32:58 EDT
+Last updated: 2026-08-31 19:31:05 EDT
 
 ## Planned features
 
@@ -9,6 +9,9 @@ Last updated: 2026-08-30 23:32:58 EDT
 
 ## Completed / fixed features
 
+- [x] Added a **Path Shortcuts** subsection to the FASRC reference in `AGENTS.md`, documenting the `~/lab` and `~/scratch` symlinks to the holylabs and netscratch lab directories, the matching `cdlab` and `cdscratch` aliases, and the caveat that `#SBATCH` directives and job scripts still need the full paths because Slurm does not expand `~` and aliases do not exist in job shells.
+- [x] Added a **Checking Jobs and Resource Usage** subsection to the FASRC Slurm reference in `AGENTS.md`, documenting `squeue --me` for pending and running jobs, `sacct` for finished-job state and memory high-water mark, and `jobstats <job_id>` for requested versus used CPU and memory when right-sizing `-c` and `--mem` before resubmitting.
+- [x] Pre-approved `pdftotext` (both bare and argument forms) in the tracked `claude/settings.json`, so the `poppler` PDF extraction already installed by `Brewfile` runs without a permission prompt on every machine receiving the symlinked global settings.
 - [x] Pre-approved Claude Code `WebFetch` and `WebSearch` in the tracked `claude/settings.json`, so every machine receiving the symlinked global settings has the same web-access permissions.
 - [x] Corrected the FASRC job I/O, checkpoint, and log path in `AGENTS.md` and its sample Slurm script by adding the missing `Lab` directory, so they use the writable `/n/netscratch/schung_lab/Lab/xizheng/` path; `CLAUDE.md` and the global Claude instructions inherit the fix from `AGENTS.md`.
 - [x] Symlinked the tracked `claude/settings.json` into `~/.claude/settings.json` from every per-device setup script and the Mac bootstrap, using the shared idempotent link helper so `git pull` propagates settings changes automatically while preserving an existing regular file once as `settings.json.pre-mac-setup`.
