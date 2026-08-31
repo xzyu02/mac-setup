@@ -23,12 +23,9 @@
 ## Git commits
 
 - Start every commit message subject with an appropriate type tag, such as `[WIP]`, `[FEA]`, `[MRG]`, or `[FIX]`.
-- When `TODOs.md` is in use, include corresponding recent checked TODO items in the same commit as the implementation.
-- Before committing, review `TODOs.md` if it exists and make sure tracked features or fixes included in the commit are recorded under **Completed / fixed features**.
-- Do not commit implementation changes while leaving required TODO updates unstaged or for a later commit.
-- Write commits with a concise subject line followed by a descriptive commit body whenever the commit contains completed features or fixes.
-- When relevant checked TODO items exist, list each one in the commit body. Do not summarize a multi-feature commit with only a single-line message or mention only one of several included TODOs.
-- Keep unrelated historical completed TODOs out of the commit message; include the complete set that corresponds to the staged changes being committed.
+- Write a concise subject line followed by a descriptive body whenever the commit contains completed features or fixes.
+- When `TODOs.md` is in use, stage the implementation and its `TODOs.md` updates in the same commit, with every included feature or fix recorded under **Completed / fixed features**. Never leave a required TODO update unstaged or for a later commit.
+- List in the body exactly the checked TODO items covered by the staged changes — all of them, and no unrelated historical entries. Do not reduce a multi-feature commit to a single line or to one of several included TODOs.
 
 ## Handoff documents
 
@@ -65,11 +62,10 @@ CPU-light checks, dry runs, and config/shape inspection.
 - Do not run GPU jobs, and do not run heavy CPU jobs either — no training, no
   large data processing, no long-running or memory-hungry work.
 - Do not install CUDA-only dependencies on the Mac.
-- For anything heavier, stop and ask permission before touching FASRC. Present
-  the plan first: partition, GPU count, time limit, and target paths.
-- Never `ssh` to the cluster, transfer data, or `sbatch` without explicit
-  approval in the current session. Approval for one job is not approval for the
-  next.
+- For anything heavier, never `ssh` to the cluster, transfer data, or `sbatch`
+  without explicit approval in the current session — present the plan first:
+  partition, GPU count, time limit, and target paths. Approval for one job is
+  not approval for the next.
 - Writing HPC scripts locally is fine and encouraged — authoring a `sbatch`
   script is not the same as submitting it.
 
@@ -103,9 +99,7 @@ before the first submission of a task, then report job IDs and log paths.
 
 This is the authority on cluster paths, accounts, partitions, Slurm options, and
 Python environments, in all three routing cases — including when writing job
-scripts from a Mac or the Spark machine. It is kept inline rather than in a
-separate file so it is always in context and never has to be recalled from a
-summary.
+scripts from a Mac or the Spark machine.
 
 ### Paths
 
@@ -315,13 +309,9 @@ queue wait, while under-requesting memory gets the job killed.
 
 #### Job Priority
 
-Slurm job priority is mainly determined by:
-- **Fairshare** — lower recent resource usage gives higher priority.
-- **Job age** — waiting jobs gain priority over time.
-
-So even with low fairshare, queued jobs will eventually move up.
-
-View the pending queue for a partition with:
+Priority is fairshare (lower recent usage ranks higher) plus job age, so even
+with low fairshare queued jobs move up over time. View a partition's pending
+queue with:
 
 ```bash
 showq -o -p <partition>
