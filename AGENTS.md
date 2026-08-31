@@ -6,10 +6,8 @@
 ## TODO maintenance
 
 - Maintain `TODOs.md` only when it already exists in the repository or the user explicitly asks for TODO tracking. Do not create it solely for a routine change.
-- When TODO tracking is in use, record completed work as a checked (`[x]`) item with enough detail to identify the original issue and its resolution.
-- Preserve unfinished items as unchecked (`[ ]`) entries. Do not mark an item complete until the implementation and appropriate verification are finished.
-- Keep completed fixes and working features in a dedicated **Completed / fixed features** section.
-- Keep future work and unfinished features in a separate **Planned features** section. Do not leave checked items mixed into the planned section; move them to the completed section when they are finished.
+- Record completed work as a checked (`[x]`) item with enough detail to identify the original issue and its resolution, and leave unfinished work unchecked (`[ ]`) — an item is complete only once the implementation and appropriate verification are finished.
+- Keep completed fixes and working features under a dedicated **Completed / fixed features** section and future or unfinished work under a separate **Planned features** section. Move an item across when it is finished; never leave checked items mixed into the planned section.
 - Use `TODOs.md` as the canonical project TODO file. Do not create timestamped or alternate TODO files unless requested.
 - Every time `TODOs.md` is changed, refresh its `Last updated: YYYY-MM-DD HH:MM:SS TZ` line using the current local date, time, and timezone.
 
@@ -26,6 +24,7 @@
 - Write a concise subject line followed by a descriptive body whenever the commit contains completed features or fixes.
 - When `TODOs.md` is in use, stage the implementation and its `TODOs.md` updates in the same commit, with every included feature or fix recorded under **Completed / fixed features**. Never leave a required TODO update unstaged or for a later commit.
 - List in the body exactly the checked TODO items covered by the staged changes — all of them, and no unrelated historical entries. Do not reduce a multi-feature commit to a single line or to one of several included TODOs.
+- Never revert or reconstruct working-tree changes just to split history into a tidier intermediate commit — the risk of losing or mangling finished work outweighs a cleaner log. Commit each feature or fix once it is done instead, so the history separates itself.
 
 ## Handoff documents
 
@@ -146,32 +145,15 @@ scripts, and config files — Slurm does not expand `~` in options such as
 
 ### Python Environments
 
-Mamba is provided by:
-
-```bash
-module load python
-```
-
-Envs live at:
-
-```text
-/n/holylabs/schung_lab/Lab/xizheng/envs/<name>
-```
-
-Before creating one:
-
-```bash
-ls /n/holylabs/schung_lab/Lab/xizheng/envs
-```
-
-Reuse a matching env. Otherwise use `dev` for early experiments or a project-specific env.
-
-Create envs on a compute node:
+Envs live at `/n/holylabs/schung_lab/Lab/xizheng/envs/<name>`. List them with
+`ls` first and reuse a match; otherwise use `dev` for early experiments or a
+project-specific env. Create on a compute node:
 
 ```bash
 salloc -p test -c 2 --mem=4GB -t 0-02:00
-module load python
-mamba create --prefix /n/holylabs/schung_lab/Lab/xizheng/envs/<name>   -c conda-forge python=3.12 pip wheel
+module load python          # provides mamba
+mamba create --prefix /n/holylabs/schung_lab/Lab/xizheng/envs/<name> \
+  -c conda-forge python=3.12 pip wheel
 ```
 
 Activate with:
