@@ -105,11 +105,7 @@ scripts from a Mac or the Spark machine.
 - User: `xzyu`; lab folder: **`xizheng`** — do not use `$USER` in lab paths.
 - Code / envs / projects: `/n/holylabs/schung_lab/Lab/xizheng/`
 - Job I/O / checkpoints / logs: `/n/netscratch/schung_lab/Lab/xizheng/`
-- Shared HF cache:
-
-```bash
-export HF_HOME=/n/holylabs/schung_lab/Lab/huggingface_cache
-```
+- Shared HF cache: `export HF_HOME=/n/holylabs/schung_lab/Lab/huggingface_cache`
 
 Use `holylabs` for persistent code/project files, not training output.  
 Use `netscratch` for job output; retention is ~90 days.  
@@ -117,25 +113,15 @@ Keep `$HOME` for dotfiles/config only.
 
 #### Path Shortcuts
 
-Two symlinks in `$HOME` point at the two lab areas, with matching `cd` aliases:
-
-| Shortcut | Alias | Target |
-|---|---|---|
-| `~/lab` | `cdlab` | `/n/holylabs/schung_lab/Lab/xizheng/` |
-| `~/scratch` | `cdscratch` | `/n/netscratch/schung_lab/Lab/xizheng/` |
-
-Create the symlinks once on a login node:
+Two `$HOME` symlinks point at the lab areas, with matching `cd` aliases. Create
+the symlinks once on a login node, and keep the aliases in `~/.bashrc`:
 
 ```bash
 ln -sfn /n/holylabs/schung_lab/Lab/xizheng "$HOME/lab"
 ln -sfn /n/netscratch/schung_lab/Lab/xizheng "$HOME/scratch"
-```
 
-And define the aliases in `~/.bashrc`:
-
-```bash
-alias cdlab='cd ~/lab'
-alias cdscratch='cd ~/scratch'
+alias cdlab='cd ~/lab'            # /n/holylabs/schung_lab/Lab/xizheng/
+alias cdscratch='cd ~/scratch'    # /n/netscratch/schung_lab/Lab/xizheng/
 ```
 
 These are conveniences for interactive shells only. Keep writing the full
@@ -173,17 +159,8 @@ Rules:
 
 ### Slurm
 
-Kempner account:
-
-```bash
--A kempner_schung_lab
-```
-
-Check currently available partitions with:
-
-```bash
-spart
-```
+Kempner account: `-A kempner_schung_lab`. Check currently available partitions
+with `spart`.
 
 #### Partition Guide
 
@@ -212,17 +189,10 @@ Physical node capacity:
 - A100 node: **64 CPU cores, 1 TB RAM**
 - H100 node: **96 CPU cores, 1.5 TB RAM**
 
-Kempner scheduling caps are lower per requested GPU:
+Kempner scheduling caps are lower per requested GPU, and are the ceiling to
+request against — not the full-node figures above:
 - `kempner` / A100: up to **16 CPU cores + 240 GB RAM per GPU**
 - `kempner_h100` / H100: up to **24 CPU cores + 360 GB RAM per GPU**
-
-Do not confuse full-node hardware capacity with per-GPU scheduling limits. For a
-1-GPU H100 job, normally request at most:
-
-```bash
-#SBATCH -c 24
-#SBATCH --mem=360G
-```
 
 #### GPU Constraints on Requeue
 
@@ -264,37 +234,21 @@ python train.py
 
 #### Checking Jobs and Resource Usage
 
-List your own pending and running jobs:
-
 ```bash
-squeue --me
-```
-
-Review finished jobs — state, elapsed time, exit code, memory high-water mark:
-
-```bash
-sacct -j <job_id>
+squeue --me                              # your pending and running jobs
+sacct -j <job_id>                        # state, elapsed, exit code, MaxRSS
 sacct -j <job_id> --format=JobID,JobName,Partition,State,Elapsed,ReqMem,MaxRSS,ExitCode
 sacct -S 2026-08-01                      # everything since a date
+jobstats <job_id>                        # requested vs used CPU and memory
 ```
 
-Check what a job actually consumed with:
-
-```bash
-jobstats <job_id>
-```
-
-It reports requested versus used CPU and memory for a running or completed job.
-Use it before resubmitting a job to right-size `-c` and `--mem` instead of
-guessing: over-requesting memory or cores lowers fairshare and lengthens the
-queue wait, while under-requesting memory gets the job killed.
+`jobstats` works on running and completed jobs. Check it before resubmitting to
+right-size `-c` and `--mem` instead of guessing: over-requesting memory or cores
+lowers fairshare and lengthens the queue wait, while under-requesting memory
+gets the job killed.
 
 #### Job Priority
 
 Priority is fairshare (lower recent usage ranks higher) plus job age, so even
 with low fairshare queued jobs move up over time. View a partition's pending
-queue with:
-
-```bash
-showq -o -p <partition>
-```
+queue with `showq -o -p <partition>`.
