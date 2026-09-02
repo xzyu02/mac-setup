@@ -75,17 +75,26 @@ Before submitting, confirm the local run passed at small scale — use Spark as
 the debug tier so cluster jobs do not fail on trivial errors. Ask permission
 before the first submission of a task, then report job IDs and log paths.
 
+Load the `fasrc` skill before writing the job script; the partition, per-GPU
+caps, and environment commands come from it, not from the local setup.
+
 ### Case 3 — On FASRC (Cannon / Kempner)
 
 - Never run GPU or heavy compute on a login node; use `salloc` or `sbatch`.
-- Use the paths, accounts, partitions, and environment conventions in the FASRC
-  reference below exactly as written.
+- Load the `fasrc` skill and use its partitions, Slurm options, and environment
+  conventions exactly as written.
 
 ## FASRC Cannon / Kempner reference
 
-This is the authority on cluster paths, accounts, partitions, Slurm options, and
-Python environments, in all three routing cases — including when writing job
-scripts from a Mac or the Spark machine.
+The lab paths and a sample job header are kept here because they are small and
+must never be guessed. Everything else — the partition guide, per-GPU core and
+memory caps, GPU holding limits, Python environment setup, the full job
+template, and the Slurm monitoring commands — lives in the **`fasrc` skill**.
+
+Load that skill before naming any partition, account, `#SBATCH` option, or
+cluster environment command, in all three routing cases, including when writing
+job scripts from a Mac or the Spark machine. Do not fill in a partition or a
+resource figure from memory.
 
 ### Paths
 
@@ -98,143 +107,20 @@ Use `holylabs` for persistent code/project files, not training output.
 Use `netscratch` for job output; retention is ~90 days.  
 Keep `$HOME` for dotfiles/config only.
 
-#### Path Shortcuts
+### Sample job header
 
-Two `$HOME` symlinks point at the lab areas, with matching `cd` aliases. Create
-the symlinks once on a login node, and keep the aliases in `~/.bashrc`:
-
-```bash
-ln -sfn /n/holylabs/schung_lab/Lab/xizheng "$HOME/lab"
-ln -sfn /n/netscratch/schung_lab/Lab/xizheng "$HOME/scratch"
-
-alias cdlab='cd ~/lab'            # /n/holylabs/schung_lab/Lab/xizheng/
-alias cdscratch='cd ~/scratch'    # /n/netscratch/schung_lab/Lab/xizheng/
-```
-
-These are conveniences for interactive shells only. Keep writing the full
-`/n/holylabs/...` and `/n/netscratch/...` paths in `#SBATCH` directives, job
-scripts, and config files — Slurm does not expand `~` in options such as
-`#SBATCH -o`, and aliases do not exist in non-interactive job shells.
-
-### Python Environments
-
-Envs live at `/n/holylabs/schung_lab/Lab/xizheng/envs/<name>`. List them with
-`ls` first and reuse a match; otherwise use `dev` for early experiments or a
-project-specific env. Create on a compute node:
-
-```bash
-salloc -p test -c 2 --mem=4GB -t 0-02:00
-module load python          # provides mamba
-mamba create --prefix /n/holylabs/schung_lab/Lab/xizheng/envs/<name> \
-  -c conda-forge python=3.12 pip wheel
-```
-
-Activate with:
-
-```bash
-module load python
-source activate /n/holylabs/schung_lab/Lab/xizheng/envs/<name>
-```
-
-Rules:
-- Use `source activate`, not `mamba activate`.
-- `pip install` only inside an activated env.
-- Never `sbatch` from an activated env.
-- No `conda init` block in `~/.bashrc`.
-- Use `conda-forge`; `repo.anaconda.com` is blocked.
-- Explicitly install CUDA-compatible builds for GPU envs.
-
-### Slurm
-
-Kempner account: `-A kempner_schung_lab`. Check currently available partitions
-with `spart`.
-
-#### Partition Guide
-
-| Partition | Use |
-|---|---|
-| `test` | short CPU setup/debug jobs |
-| `shared` | normal CPU jobs |
-| `intermediate` | CPU jobs up to 14 days |
-| `bigmem` / `bigmem_intermediate` | high-memory CPU jobs |
-| `gpu` / `gpu_h200` | general FASRC GPU jobs |
-| `gpu_test` | short GPU tests |
-| `gpu_requeue` | opportunistic/preemptible GPU jobs |
-| `kempner` | A100, prototyping / small-mid models |
-| `kempner_h100` | H100, larger training / FP8 |
-| `kempner_h200` | H200, largest or memory-heavy workloads |
-| `kempner_rtx` | RTX 6000; FP4/RT, avoid heavy multi-GPU sharding |
-| `kempner_requeue` | preemptible Kempner jobs; use for non-urgent heavy work |
-
-Other accessible partitions include `serial_requeue`, `sapphire`, `remoteviz`,
-`unrestricted`, `kempner_interactive`, and `kempner_gpu_priority`; inspect with
-`spart` / `sinfo` before using them.
-
-#### GPU Node Specs
-
-Kempner scheduling caps:
-
-| Partition | Per GPU |
-|---|---|
-| `kempner` | **16 cores, 240 GB** |
-| `kempner_h100` | **24 cores, 360 GB** |
-| `kempner_h200` | **16 cores, 360 GB** |
-| `kempner_rtx` | **16 cores, 180 GB** |
-
-#### GPU Constraints on Requeue
-
-For `gpu_requeue`, optionally select the GPU type with:
-
-```bash
-#SBATCH --constraint=h100   # H100, A100, H200 ...
-```
-
-#### Kempner Limits
-
-Summed across `kempner`, `kempner_h100`, `kempner_h200`, and `kempner_rtx`:
-
-- A user may hold at most **16 GPUs** at once.
-- An account, such as `kempner_schung_lab`, may hold at most **96 GPUs** at once.
-
-`kempner_requeue` and `gpu_requeue` are preemptible. Jobs using them must
-checkpoint and support restart/requeue.
-
-Typical job:
+The H100 case, as a shape to start from — not values to reuse unchecked:
 
 ```bash
 #!/bin/bash
 #SBATCH -A kempner_schung_lab
-#SBATCH -p kempner_h100
+#SBATCH -p kempner_h100          # confirm the partition in the fasrc skill
 #SBATCH --gres=gpu:1
-#SBATCH -c 24
-#SBATCH --mem=360G
+#SBATCH -c 24                    # per-GPU core cap varies by partition
+#SBATCH --mem=360G               # per-GPU memory cap varies by partition
 #SBATCH -t 0-04:00
 #SBATCH -o /n/netscratch/schung_lab/Lab/xizheng/logs/%x_%j.out
-
-module load python
-source activate /n/holylabs/schung_lab/Lab/xizheng/envs/<name>
-export HF_HOME=/n/holylabs/schung_lab/Lab/huggingface_cache
-
-python train.py
 ```
 
-#### Checking Jobs and Resource Usage
-
-```bash
-squeue --me                              # your pending and running jobs
-sacct -j <job_id>                        # state, elapsed, exit code, MaxRSS
-sacct -j <job_id> --format=JobID,JobName,Partition,State,Elapsed,ReqMem,MaxRSS,ExitCode
-sacct -S 2026-08-01                      # everything since a date
-jobstats <job_id>                        # requested vs used CPU and memory
-```
-
-`jobstats` works on running and completed jobs. Check it before resubmitting to
-right-size `-c` and `--mem` instead of guessing: over-requesting memory or cores
-lowers fairshare and lengthens the queue wait, while under-requesting memory
-gets the job killed.
-
-#### Job Priority
-
-Priority is fairshare (lower recent usage ranks higher) plus job age, so even
-with low fairshare queued jobs move up over time. View a partition's pending
-queue with `showq -o -p <partition>`.
+The account and the log path are correct as written. The partition and its
+per-GPU core and memory caps are not — take those from the skill.

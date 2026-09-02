@@ -52,6 +52,16 @@ else
 fi
 printf '  Export it in job scripts: export HF_HOME=%s\n' "${HF_CACHE_DIR}"
 
+log "Checking the FASRC reference skill"
+readonly FASRC_SKILL="${HOME}/.claude/skills/fasrc/SKILL.md"
+if [[ -r "${FASRC_SKILL}" ]]; then
+    printf '  %s available.\n' "${FASRC_SKILL}"
+else
+    printf '  Warning: %s not readable.\n' "${FASRC_SKILL}" >&2
+    printf '  Partitions, per-GPU caps, and environment rules live in that skill.\n' >&2
+    printf '  Without it an agent has only the paths and sample header in AGENTS.md.\n' >&2
+fi
+
 log "Checking Slurm tooling"
 for command_name in sbatch squeue salloc spart; do
     if command_path="$(command -v "${command_name}" 2>/dev/null)"; then

@@ -1,6 +1,6 @@
 # TODOs
 
-Last updated: 2026-09-01 21:50:07 EDT
+Last updated: 2026-09-02 09:21:31 EDT
 
 ## Planned features
 
@@ -9,6 +9,7 @@ Last updated: 2026-09-01 21:50:07 EDT
 
 ## Completed / fixed features
 
+- [x] Moved the bulk of the FASRC Cannon / Kempner reference out of `AGENTS.md` into a tracked `fasrc` skill at `claude/skills/fasrc/SKILL.md`, keeping only the lab paths and a commented sample `#SBATCH` header inline because those are small and must never be guessed. The skill holds the partition guide, per-GPU core and memory caps, GPU holding limits, requeue constraints, Python environment setup, the full job template, the `$HOME` path shortcuts, and the Slurm monitoring commands. The always-loaded instructions dropped from 10,844 to 7,383 bytes, roughly 865 tokens saved in every session in every project, while an agent that never loads the skill still has the account, the paths, and an explicit instruction not to fill in a partition or resource figure from memory. All three routing cases point at the skill, and `setup-hpc.sh` now warns on a FASRC login node when the skill is not readable.
 - [x] Moved the handoff document specification out of `AGENTS.md` into a tracked Claude Code skill at `claude/skills/handoff/SKILL.md`, and rewrote it to capture the live session thread — task in flight, decisions and rationale, open questions — alongside the existing project-state sections, so a handoff can carry work to another agent, another harness, or another person rather than only summarizing finished work for a human. `link-agent-docs.sh` gained a `link_skills` helper that symlinks each tracked skill directory into `~/.claude/skills/<name>` individually, leaving room for skills installed from elsewhere and refusing to replace a real directory. Removing the section also dropped 13 lines from the always-loaded `AGENTS.md`.
 - [x] Completed the Kempner per-GPU scheduling caps in `AGENTS.md` with the previously missing `kempner_h200` (16 cores, 360 GB) and `kempner_rtx` (16 cores, 180 GB) rows, so every Kempner GPU partition in the partition guide now has a documented `-c` and `--mem` ceiling instead of only `kempner` and `kempner_h100`. The four partitions are now a table rather than bullets, and the GPU holding limits state that the 16-per-user and 96-per-account caps are concurrent and summed across those four partitions.
 - [x] Added a **Path Shortcuts** subsection to the FASRC reference in `AGENTS.md`, documenting the `~/lab` and `~/scratch` symlinks to the holylabs and netscratch lab directories, the matching `cdlab` and `cdscratch` aliases, and the caveat that `#SBATCH` directives and job scripts still need the full paths because Slurm does not expand `~` and aliases do not exist in job shells.
