@@ -12,6 +12,7 @@ set -euo pipefail
 readonly SETUP_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 readonly AGENTS_SOURCE="${SETUP_DIR}/AGENTS.md"
 readonly CLAUDE_SETTINGS_SOURCE="${SETUP_DIR}/claude/settings.json"
+readonly CLAUDE_SKILLS_SOURCE="${SETUP_DIR}/claude/skills"
 
 log() {
     printf '\n==> %s\n' "$1"
@@ -56,6 +57,46 @@ link_file() {
     printf '  %s -> %s\n' "${target}" "${source}"
 }
 
+# link_skills
+#
+# Symlinks each tracked skill directory into ~/.claude/skills/<name>. Skills are
+# linked one at a time rather than by linking the whole skills directory, so
+# skills installed from elsewhere can live alongside the tracked ones. A real
+# directory already at a target is a fatal error; it is never replaced.
+link_skills() {
+    local target_root="${HOME}/.claude/skills"
+    local source_skill target_skill skill_name
+
+    if [[ ! -d "${CLAUDE_SKILLS_SOURCE}" ]]; then
+        printf '  No tracked skills directory; skipped %s\n' "${target_root}"
+        return 0
+    fi
+
+    mkdir -p "${target_root}"
+
+    for source_skill in "${CLAUDE_SKILLS_SOURCE}"/*/; do
+        [[ -d "${source_skill}" ]] || continue
+
+        source_skill="${source_skill%/}"
+        skill_name="$(basename -- "${source_skill}")"
+        target_skill="${target_root}/${skill_name}"
+
+        if [[ -d "${target_skill}" && ! -L "${target_skill}" ]]; then
+            printf '  %s is a real directory; move or remove it, then run this script again.\n' \
+                "${target_skill}" >&2
+            exit 1
+        fi
+
+        if [[ -L "${target_skill}" ]] && [[ "$(readlink "${target_skill}")" == "${source_skill}" ]]; then
+            printf '  %s already linked\n' "${target_skill}"
+            continue
+        fi
+
+        ln -sfn "${source_skill}" "${target_skill}"
+        printf '  %s -> %s\n' "${target_skill}" "${source_skill}"
+    done
+}
+
 # The FASRC reference used to be a separate HPC.md linked alongside AGENTS.md.
 # Its contents are now a section of AGENTS.md, so the old symlink is dangling and
 # is cleaned up here. A real file kept at that path by hand is left alone.
@@ -77,6 +118,7 @@ log "Linking shared agent configuration"
 
 link_file "${AGENTS_SOURCE}" "${HOME}/.claude/CLAUDE.md"
 link_file "${CLAUDE_SETTINGS_SOURCE}" "${HOME}/.claude/settings.json"
+link_skills
 remove_stale_hpc_link
 
 # Codex reads ~/.codex/AGENTS.md. Only link it where Codex is actually present so

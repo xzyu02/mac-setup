@@ -26,19 +26,6 @@
 - List in the body exactly the checked TODO items covered by the staged changes — all of them, and no unrelated historical entries. Do not reduce a multi-feature commit to a single line or to one of several included TODOs.
 - Never revert or reconstruct working-tree changes just to split history into a tidier intermediate commit — the risk of losing or mangling finished work outweighs a cleaner log. Commit each feature or fix once it is done instead, so the history separates itself.
 
-## Handoff documents
-
-When asked to write or update a handoff document (including requests that spell it `HANDOFF.md` or `HANDSOFF.md`), create or update the requested Markdown file with current, verified information. Include all of the following sections:
-
-1. **What changed** — the implementation completed during the work period, including important behavior and files changed.
-2. **Issues remaining** — known bugs, caveats, incomplete integrations, and anything that still needs device or visual QA.
-3. **TODOs remaining** — all relevant unchecked work from `TODOs.md`, summarized without presenting completed work as outstanding.
-4. **Codebase structure** — the app’s architecture, major directories, important files, data flow, and where future work should be made.
-5. **Verification** — commands or manual checks run, their results, and any verification that could not be performed.
-
-Before writing a handoff, inspect the current working tree, `TODOs.md`, and any existing handoff file. Do not copy stale claims from an older handoff without confirming them against the current codebase. Mention uncommitted changes when present.
-
-
 ## Compute environment routing
 
 Before starting any GPU, training, or large-scale compute work, determine the
@@ -185,12 +172,7 @@ Other accessible partitions include `serial_requeue`, `sapphire`, `remoteviz`,
 
 #### GPU Node Specs
 
-Physical node capacity:
-- A100 node: **64 CPU cores, 1 TB RAM**
-- H100 node: **96 CPU cores, 1.5 TB RAM**
-
-Kempner scheduling caps are lower per requested GPU, and are the ceiling to
-request against — not the full-node figures above. Submit with no more than:
+Kempner scheduling caps:
 
 | Partition | Per GPU |
 |---|---|
@@ -204,8 +186,7 @@ request against — not the full-node figures above. Submit with no more than:
 For `gpu_requeue`, optionally select the GPU type with:
 
 ```bash
-#SBATCH --constraint=h100   # H100
-#SBATCH --constraint=a100   # A100
+#SBATCH --constraint=h100   # H100, A100, H200 ...
 ```
 
 #### Kempner Limits

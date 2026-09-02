@@ -1,6 +1,6 @@
 # TODOs
 
-Last updated: 2026-09-01 21:38:35 EDT
+Last updated: 2026-09-01 21:50:07 EDT
 
 ## Planned features
 
@@ -9,6 +9,7 @@ Last updated: 2026-09-01 21:38:35 EDT
 
 ## Completed / fixed features
 
+- [x] Moved the handoff document specification out of `AGENTS.md` into a tracked Claude Code skill at `claude/skills/handoff/SKILL.md`, and rewrote it to capture the live session thread — task in flight, decisions and rationale, open questions — alongside the existing project-state sections, so a handoff can carry work to another agent, another harness, or another person rather than only summarizing finished work for a human. `link-agent-docs.sh` gained a `link_skills` helper that symlinks each tracked skill directory into `~/.claude/skills/<name>` individually, leaving room for skills installed from elsewhere and refusing to replace a real directory. Removing the section also dropped 13 lines from the always-loaded `AGENTS.md`.
 - [x] Completed the Kempner per-GPU scheduling caps in `AGENTS.md` with the previously missing `kempner_h200` (16 cores, 360 GB) and `kempner_rtx` (16 cores, 180 GB) rows, so every Kempner GPU partition in the partition guide now has a documented `-c` and `--mem` ceiling instead of only `kempner` and `kempner_h100`. The four partitions are now a table rather than bullets, and the GPU holding limits state that the 16-per-user and 96-per-account caps are concurrent and summed across those four partitions.
 - [x] Added a **Path Shortcuts** subsection to the FASRC reference in `AGENTS.md`, documenting the `~/lab` and `~/scratch` symlinks to the holylabs and netscratch lab directories, the matching `cdlab` and `cdscratch` aliases, and the caveat that `#SBATCH` directives and job scripts still need the full paths because Slurm does not expand `~` and aliases do not exist in job shells.
 - [x] Added a **Checking Jobs and Resource Usage** subsection to the FASRC Slurm reference in `AGENTS.md`, documenting `squeue --me` for pending and running jobs, `sacct` for finished-job state and memory high-water mark, and `jobstats <job_id>` for requested versus used CPU and memory when right-sizing `-c` and `--mem` before resubmitting.
