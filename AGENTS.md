@@ -190,9 +190,14 @@ Physical node capacity:
 - H100 node: **96 CPU cores, 1.5 TB RAM**
 
 Kempner scheduling caps are lower per requested GPU, and are the ceiling to
-request against — not the full-node figures above:
-- `kempner` / A100: up to **16 CPU cores + 240 GB RAM per GPU**
-- `kempner_h100` / H100: up to **24 CPU cores + 360 GB RAM per GPU**
+request against — not the full-node figures above. Submit with no more than:
+
+| Partition | Per GPU |
+|---|---|
+| `kempner` | **16 cores, 240 GB** |
+| `kempner_h100` | **24 cores, 360 GB** |
+| `kempner_h200` | **16 cores, 360 GB** |
+| `kempner_rtx` | **16 cores, 180 GB** |
 
 #### GPU Constraints on Requeue
 
@@ -205,10 +210,10 @@ For `gpu_requeue`, optionally select the GPU type with:
 
 #### Kempner Limits
 
-Across `kempner`, `kempner_h100`, `kempner_h200`, and `kempner_rtx`:
+Summed across `kempner`, `kempner_h100`, `kempner_h200`, and `kempner_rtx`:
 
-- Max **16 GPUs per user**
-- Max **96 GPUs per Kempner account**
+- A user may hold at most **16 GPUs** at once.
+- An account, such as `kempner_schung_lab`, may hold at most **96 GPUs** at once.
 
 `kempner_requeue` and `gpu_requeue` are preemptible. Jobs using them must
 checkpoint and support restart/requeue.
