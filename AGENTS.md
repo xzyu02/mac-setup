@@ -38,14 +38,18 @@ every repository.
 - Once the work is complete and verified, commit it to that branch without
   asking and without waiting to be told, following the commit message rules
   above.
-- When the feature is ready, merge it into the default branch with
+- Push your own `feat/` or `fix/` branch without asking. Nothing shared
+  depends on it, and only the default branch needs a request.
+- When the feature is ready, say so and propose the merge — do not merge it
+  yourself. Once told to, merge into the default branch with
   `git merge --no-ff` and an `[MRG]` subject so the branch stays a visible
   unit in the history, then delete the merged branch.
 
 ## Requires an explicit request
 
-- `git push`, and anything outward-facing: pull requests, tags, releases, new
-  remotes. `~/.claude/settings.json` also gates `git push` behind a prompt.
+- Merging into the default branch, and pushing the default branch. Pushing
+  your own `feat/` or `fix/` branch does not need one.
+- Anything outward-facing: pull requests, tags, releases, new remotes.
 - Rewriting history that is already merged or shared: `commit --amend`,
   `rebase` of the default branch, `reset --hard`, any force push.
 - Committing unfinished, unverified, or actively-iterating work. Leave it in
