@@ -26,30 +26,86 @@
 - List in the body exactly the checked TODO items covered by the staged changes — all of them, and no unrelated historical entries. Do not reduce a multi-feature commit to a single line or to one of several included TODOs.
 - Never revert or reconstruct working-tree changes just to split history into a tidier intermediate commit — the risk of losing or mangling finished work outweighs a cleaner log. Commit each feature or fix once it is done instead, so the history separates itself.
 
+## Branch per feature, commit when done
+
+These rules replace the default "commit only when the user asks" behavior, in
+every repository.
+
+- Before implementing a feature or fix, branch off the default branch:
+  `feat/<thread>/<short-slug>` for new work, `fix/<thread>/<short-slug>` for
+  repairs. Never implement directly on the default branch. If the name is
+  taken, add a numeric suffix.
+- `<thread>` is the line of work the branch belongs to, so concurrent agents
+  are legible at a glance in `git branch`. Keep to this closed set — a thread
+  only one branch ever uses has stopped being a coordination signal:
+  `data` (datasets, preprocessing, loaders), `train` (training loop,
+  optimization, fine-tuning), `eval` (benchmarks, metrics, harnesses),
+  `analysis` (figures, statistics, interpreting results), `infra` (Slurm
+  scripts, environments, tooling, repo plumbing), `paper` (writeup and
+  publication figures). In a repository with no such threads, drop the level
+  and use `feat/<short-slug>`.
+- Never name a branch exactly `feat/<thread>`. Git stores refs as paths, so
+  `feat/train` and `feat/train/lora-rank` cannot both exist — whichever comes
+  second is refused.
+- Once the work is complete and verified, commit it to that branch without
+  asking and without waiting to be told, following the commit message rules
+  above.
+- Push your own `feat/` or `fix/` branch without asking. Nothing shared
+  depends on it, and only the default branch needs a request.
+- When the feature is ready, say so and propose the merge — do not merge it
+  yourself. Once told to, merge into the default branch with
+  `git merge --no-ff` and an `[MRG]` subject so the branch stays a visible
+  unit in the history, then delete the merged branch.
+
+## Requires an explicit request
+
+- Merging into the default branch, and pushing the default branch. Pushing
+  your own `feat/` or `fix/` branch does not need one.
+- Anything outward-facing: pull requests, tags, releases, new remotes.
+- Committing unfinished, unverified, or actively-iterating work. Leave it in
+  the working tree and say what is left.
+- Staging pre-existing unrelated changes that were already dirty when the
+  session began. Commit only what the current task touched.
+
+## Destructive Git operations
+
+These destroy work that another branch, another machine, or another agent may
+be the only holder of, and the loss usually cannot be undone from the local
+checkout. They are not covered by a general approval to work on a task, or by
+permission granted for one of them earlier in the session. Name what would be
+lost, then wait for an instruction to do exactly that thing.
+
+- Any force push: `push --force`, `push --force-with-lease`.
+- Rewriting history that is already merged or shared: `commit --amend`,
+  `rebase` of the default branch, `reset --hard`.
+- Discarding uncommitted work: `stash`, `checkout --`, `restore`, `clean`.
+  This includes doing it to make a pull, merge, or branch switch apply
+  cleanly — if the tree has to be clean first, say so and ask.
+- Deleting a branch that is unmerged, or that another session created.
+
 ## Working alongside other agents
 
 Assume another agent — in another session, or on another machine — may be
 working on the same repository at the same time. The local checkout is not
 authoritative, and a clean working tree does not mean an up-to-date one. These
-rules authorize nothing on their own; they constrain how shared history is
-touched once some other rule or the user has authorized the work.
+rules constrain how the branch flow above touches shared history.
 
 - Run `git fetch` and report what it shows — ahead/behind counts, uncommitted
   work, unpushed commits — before starting any work that will change the
   repository. A stale base is cheap to fix beforehand and expensive after.
 - Work only on your own branch. Never commit to, merge, or delete a branch
   another session created, and never switch a branch out from under one.
+- Re-check the default branch for new commits immediately before merging into
+  it, not just at the start of the session.
 - When work is on a branch, push it before the session ends even if the
   feature is unfinished, so another machine or agent can pick the thread up.
   An unpushed branch is invisible to every other device.
 - Stop and ask on any merge or rebase conflict in code, config, or job
   scripts. The other side is another thread's finished work and its intent is
-  not visible from the diff — report the conflicting files and wait. The one
-  exception is `TODOs.md`, where the resolution is always to keep both sides'
-  entries and refresh the `Last updated:` line.
-- Never `push --force`, never `reset --hard`, and never stash, discard, or
-  revert local changes to make a pull or merge apply cleanly. If the tree has
-  to be clean first, say so and ask.
+  not visible from the diff — report the conflicting files and wait. Resolve
+  it on the feature branch once told to, never by rewriting the default
+  branch. The one exception is `TODOs.md`, where the resolution is always to
+  keep both sides' entries and refresh the `Last updated:` line.
 
 ## Compute environment routing
 
