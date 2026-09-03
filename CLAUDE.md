@@ -36,8 +36,12 @@ request** sections into any repository that should work the same way.
 
 ## Multiple agents in one repository
 
-- Work only on your own branch. Never commit to, merge, or delete a branch
-  another session created, and never switch a branch out from under one.
-- Re-check the default branch for new commits immediately before merging.
-  Resolve any conflict on the feature branch, never by rewriting the default
-  branch.
+Branch ownership, fetching before you start, pushing an unfinished branch, and
+conflict handling all live in **Working alongside other agents** in
+`AGENTS.md`, and apply here too. This section only adds what the autonomous
+merge above needs:
+
+- Re-check the default branch for new commits immediately before merging, not
+  just at the start of the session.
+- Bring a conflict to the feature branch to resolve — never rewrite the
+  default branch to clear one. Resolving it at all still means asking first.

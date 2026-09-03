@@ -26,6 +26,31 @@
 - List in the body exactly the checked TODO items covered by the staged changes — all of them, and no unrelated historical entries. Do not reduce a multi-feature commit to a single line or to one of several included TODOs.
 - Never revert or reconstruct working-tree changes just to split history into a tidier intermediate commit — the risk of losing or mangling finished work outweighs a cleaner log. Commit each feature or fix once it is done instead, so the history separates itself.
 
+## Working alongside other agents
+
+Assume another agent — in another session, or on another machine — may be
+working on the same repository at the same time. The local checkout is not
+authoritative, and a clean working tree does not mean an up-to-date one. These
+rules authorize nothing on their own; they constrain how shared history is
+touched once some other rule or the user has authorized the work.
+
+- Run `git fetch` and report what it shows — ahead/behind counts, uncommitted
+  work, unpushed commits — before starting any work that will change the
+  repository. A stale base is cheap to fix beforehand and expensive after.
+- Work only on your own branch. Never commit to, merge, or delete a branch
+  another session created, and never switch a branch out from under one.
+- When work is on a branch, push it before the session ends even if the
+  feature is unfinished, so another machine or agent can pick the thread up.
+  An unpushed branch is invisible to every other device.
+- Stop and ask on any merge or rebase conflict in code, config, or job
+  scripts. The other side is another thread's finished work and its intent is
+  not visible from the diff — report the conflicting files and wait. The one
+  exception is `TODOs.md`, where the resolution is always to keep both sides'
+  entries and refresh the `Last updated:` line.
+- Never `push --force`, never `reset --hard`, and never stash, discard, or
+  revert local changes to make a pull or merge apply cleanly. If the tree has
+  to be clean first, say so and ask.
+
 ## Compute environment routing
 
 Before starting any GPU, training, or large-scale compute work, determine the
