@@ -50,12 +50,26 @@ every repository.
 - Merging into the default branch, and pushing the default branch. Pushing
   your own `feat/` or `fix/` branch does not need one.
 - Anything outward-facing: pull requests, tags, releases, new remotes.
-- Rewriting history that is already merged or shared: `commit --amend`,
-  `rebase` of the default branch, `reset --hard`, any force push.
 - Committing unfinished, unverified, or actively-iterating work. Leave it in
   the working tree and say what is left.
 - Staging pre-existing unrelated changes that were already dirty when the
   session began. Commit only what the current task touched.
+
+## Destructive Git operations
+
+These destroy work that another branch, another machine, or another agent may
+be the only holder of, and the loss usually cannot be undone from the local
+checkout. They are not covered by a general approval to work on a task, or by
+permission granted for one of them earlier in the session. Name what would be
+lost, then wait for an instruction to do exactly that thing.
+
+- Any force push: `push --force`, `push --force-with-lease`.
+- Rewriting history that is already merged or shared: `commit --amend`,
+  `rebase` of the default branch, `reset --hard`.
+- Discarding uncommitted work: `stash`, `checkout --`, `restore`, `clean`.
+  This includes doing it to make a pull, merge, or branch switch apply
+  cleanly — if the tree has to be clean first, say so and ask.
+- Deleting a branch that is unmerged, or that another session created.
 
 ## Working alongside other agents
 
@@ -80,9 +94,6 @@ rules constrain how the branch flow above touches shared history.
   it on the feature branch once told to, never by rewriting the default
   branch. The one exception is `TODOs.md`, where the resolution is always to
   keep both sides' entries and refresh the `Last updated:` line.
-- Never `push --force`, never `reset --hard`, and never stash, discard, or
-  revert local changes to make a pull or merge apply cleanly. If the tree has
-  to be clean first, say so and ask.
 
 ## Compute environment routing
 
