@@ -72,5 +72,6 @@
       ]
     }
   },
-  "theme": "dark"
+  "theme": "dark",
+  "autoCompactEnabled": true
 }
