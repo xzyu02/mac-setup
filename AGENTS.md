@@ -32,9 +32,21 @@ These rules replace the default "commit only when the user asks" behavior, in
 every repository.
 
 - Before implementing a feature or fix, branch off the default branch:
-  `feat/<short-slug>` for new work, `fix/<short-slug>` for repairs. Never
-  implement directly on the default branch. If the name is taken, add a
-  numeric suffix.
+  `feat/<thread>/<short-slug>` for new work, `fix/<thread>/<short-slug>` for
+  repairs. Never implement directly on the default branch. If the name is
+  taken, add a numeric suffix.
+- `<thread>` is the line of work the branch belongs to, so concurrent agents
+  are legible at a glance in `git branch`. Keep to this closed set — a thread
+  only one branch ever uses has stopped being a coordination signal:
+  `data` (datasets, preprocessing, loaders), `train` (training loop,
+  optimization, fine-tuning), `eval` (benchmarks, metrics, harnesses),
+  `analysis` (figures, statistics, interpreting results), `infra` (Slurm
+  scripts, environments, tooling, repo plumbing), `paper` (writeup and
+  publication figures). In a repository with no such threads, drop the level
+  and use `feat/<short-slug>`.
+- Never name a branch exactly `feat/<thread>`. Git stores refs as paths, so
+  `feat/train` and `feat/train/lora-rank` cannot both exist — whichever comes
+  second is refused.
 - Once the work is complete and verified, commit it to that branch without
   asking and without waiting to be told, following the commit message rules
   above.
