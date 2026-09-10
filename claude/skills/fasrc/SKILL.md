@@ -12,6 +12,10 @@ resource figure that is not here.
 The lab paths and a sample `#SBATCH` header are kept inline in `AGENTS.md`, so
 they are already in context. Everything else is here.
 
+## Connecting
+
+Connect with `ssh cannon`, not the direct hostname — the alias bypasses 2FA.
+
 ## Slurm
 
 Kempner account: `-A kempner_schung_lab`. Check currently available partitions
