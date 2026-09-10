@@ -156,6 +156,8 @@ Before submitting, confirm the local run passed at small scale — use Spark as
 the debug tier so cluster jobs do not fail on trivial errors. Ask permission
 before the first submission of a task, then report job IDs and log paths.
 
+Connect with `ssh cannon`, not the direct hostname — the alias bypasses 2FA.
+
 Load the `fasrc` skill before writing the job script; the partition, per-GPU
 caps, and environment commands come from it, not from the local setup.
 
