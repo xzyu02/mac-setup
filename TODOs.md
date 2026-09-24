@@ -1,6 +1,6 @@
 # TODOs
 
-Last updated: 2026-09-10 15:18:44 EDT
+Last updated: 2026-09-23 21:33:12 EDT
 
 ## Planned features
 
@@ -8,6 +8,8 @@ Last updated: 2026-09-10 15:18:44 EDT
 - [ ] can i migrate screen settings as well (display behavior)
 
 ## Completed / fixed features
+
+- [x] Set `CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE=1` in the `env` block of the tracked `claude/settings.json`, so Claude Code keeps itself updated even though the `Brewfile` installs it through the `claude-code` Homebrew cask, a package-manager install that does not auto-update by default. Because the file is symlinked into `~/.claude/settings.json`, every machine running the setup scripts picks it up on `git pull`.
 
 - [x] Recorded that the cluster is reached with `ssh cannon`, not the direct hostname, since the alias bypasses 2FA. Nothing had said so: `AGENTS.md` mentioned `ssh` only to forbid it from the Mac in Case 1, Case 2 (Spark) gave no connection guidance at all, and the `fasrc` skill had none either — so agents on Spark defaulted to `login.rc.fas.harvard.edu` and re-triggered Duo on every connection. Added one line to Case 2 of `AGENTS.md` and a **Connecting** section to `claude/skills/fasrc/SKILL.md`, covering both the always-in-context path and the skill an agent loads when writing a job script.
 - [x] Aligned the tracked `claude/settings.json` permissions with the branch-per-feature flow and expanded the allow list to cut prompts on read-only work. The `ask` entry `Bash(git push *)` had contradicted the rule authorizing feature-branch pushes, so it was replaced by narrow entries — `git push` bare, `git push origin main*`, `git push origin HEAD*`, and both force-push spellings — while `git push origin feat/*`, `git push -u origin feat/*` and the `fix/` equivalents moved to allow. The two lists deliberately share no pattern, so the allow-versus-ask precedence for an overlap never has to be relied on; anything matching neither falls through to the default prompt. Added as allow: read-only Git (`branch` listing forms, `remote -v`, `rev-parse`, `ls-files`, `blame`, `reflog`, `stash list`, `worktree list`, `config --get`), read-only shell (`ls`, `find`, `wc`, `stat`, `file`, `head`, `tail`, `grep`, `sort`, `uniq`, `cut`, `date`, `echo`, `which`, `diff`, `jq`, `sed -n`, `df`, `du`), read-only Slurm and environment inspection (`squeue`, `sacct`, `sinfo`, `scontrol show`, `jobstats`, `module list`/`avail`, `conda env list`/`info`/`list`), and the test and lint runners (`pytest`, `python -m pytest`, `ruff`, `mypy`, `black --check`). `sbatch`, `scancel`, `srun` and `salloc` were deliberately left prompting, as were `git merge`, `rebase`, `reset`, `restore`, `checkout`, bare `stash` and `clean`. The list is 78 entries. Two known limits of prefix matching, mitigated by the sandbox write allowlist but not eliminated: `git push origin feat/x main` still matches the `feat/*` allow because the wildcard swallows the trailing ref, and `find` is the one non-read-only member of its group since `-delete` and `-exec` match `Bash(find *)`.
