@@ -1,6 +1,6 @@
 # TODOs
 
-Last updated: 2026-09-24 12:31:02 EDT
+Last updated: 2026-09-24 12:32:46 EDT
 
 ## Planned features
 
@@ -9,7 +9,7 @@ Last updated: 2026-09-24 12:31:02 EDT
 
 ## Completed / fixed features
 
-- [x] Set `permissions.blockReadsOutsideWorkingDirectories` to `true` in the tracked `claude/settings.json`, so Claude Code blocks file reads outside the session's working directories (plus any added with `/add-dir`) instead of allowing them by default. The key name and its placement under `permissions` were confirmed against the installed CLI (2.1.281), since the published settings schema does not list it yet.
+- [x] Set `permissions.blockReadsOutsideWorkingDirectories` explicitly to `false` in the tracked `claude/settings.json`, so reads outside the session's working directories stay allowed and the choice is pinned in version control rather than left to the default. It was briefly set to `true`, which blocks such reads unless the directory is added with `/add-dir` and turns run-time-computed paths and non-allowlisted `sed` scripts into prompts; that was reverted to keep the existing read behavior. The key name and its placement under `permissions` were confirmed against the installed CLI (2.1.281), since the published settings schema does not list it yet.
 - [x] Set the default Claude Code model to Opus 5.5 in the tracked `claude/settings.json`, and kept the effort level at `xhigh`. `model` is pinned to `claude-opus-5-5`, replacing the old `opus[1m]` rather than the floating `opus` alias, so a future Opus release is not picked up silently; the `[1m]` suffix was dropped because Opus 4.7 and later get the 1M context window on every plan. `"effortLevel": "xhigh"` carries over a local edit made in the live settings; it is the highest level the key accepts, since `max` is session-only (`/effort max`) unless forced through the `CLAUDE_CODE_EFFORT_LEVEL` environment variable, which was deliberately not set.
 - [x] Allowed `*.finance.yahoo.com` and `*.yahoo.com` in `sandbox.network.allowedDomains` of the tracked `claude/settings.json`, carrying over a local edit made in the live settings so sandboxed commands can reach Yahoo Finance on every machine.
 

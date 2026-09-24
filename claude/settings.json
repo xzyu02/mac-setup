@@ -99,7 +99,7 @@
       "Bash(git push --force*)",
       "Bash(git push -f*)"
     ],
-    "blockReadsOutsideWorkingDirectories": true
+    "blockReadsOutsideWorkingDirectories": false
   },
   "model": "claude-opus-5-5",
   "sandbox": {
