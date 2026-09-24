@@ -1,6 +1,6 @@
 # TODOs
 
-Last updated: 2026-09-23 21:33:12 EDT
+Last updated: 2026-09-23 21:57:54 EDT
 
 ## Planned features
 
@@ -8,6 +8,9 @@ Last updated: 2026-09-23 21:33:12 EDT
 - [ ] can i migrate screen settings as well (display behavior)
 
 ## Completed / fixed features
+
+- [x] Set the default Claude Code model to Opus 5.5 in the tracked `claude/settings.json`, and kept the effort level at `xhigh`. `model` is pinned to `claude-opus-5-5`, replacing the old `opus[1m]` rather than the floating `opus` alias, so a future Opus release is not picked up silently; the `[1m]` suffix was dropped because Opus 4.7 and later get the 1M context window on every plan. `"effortLevel": "xhigh"` carries over a local edit made in the live settings; it is the highest level the key accepts, since `max` is session-only (`/effort max`) unless forced through the `CLAUDE_CODE_EFFORT_LEVEL` environment variable, which was deliberately not set.
+- [x] Allowed `*.finance.yahoo.com` and `*.yahoo.com` in `sandbox.network.allowedDomains` of the tracked `claude/settings.json`, carrying over a local edit made in the live settings so sandboxed commands can reach Yahoo Finance on every machine.
 
 - [x] Set `CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE=1` in the `env` block of the tracked `claude/settings.json`, so Claude Code keeps itself updated even though the `Brewfile` installs it through the `claude-code` Homebrew cask, a package-manager install that does not auto-update by default. Because the file is symlinked into `~/.claude/settings.json`, every machine running the setup scripts picks it up on `git pull`.
 
