@@ -1,6 +1,6 @@
 # TODOs
 
-Last updated: 2026-10-13 22:20:14 EDT
+Last updated: 2026-10-13 22:52:58 EDT
 
 ## Planned features
 
@@ -9,6 +9,7 @@ Last updated: 2026-10-13 22:20:14 EDT
 
 ## Completed / fixed features
 
+- [x] Archived the push restrictions from `AGENTS.md` into `ARCHIVED-RULES.md` and gave agents the push right back. Moved out: "pushing the default branch" from **Requires an explicit request** (merging into the default branch stays gated), and "Work only on your own branch" and "push it before the session ends" from **Working alongside other agents**. A new **Branches and pushing** section says to work on the checked-out branch — the default branch unless the user names or switches to another — never to create a branch unless asked, and to push the working branch without asking. Force pushes stay under **Destructive Git operations**. The conflict bullet no longer says to resolve "on the feature branch".
 - [x] Archived the **Branch per feature, commit when done** section out of `AGENTS.md` into a new, unlinked `ARCHIVED-RULES.md` at the request of the user, who no longer wants the rule applied. Nothing symlinks or imports the archive, so agents stop loading the rule — including the `feat/<thread>/<slug>` naming, the autonomous commit-and-push of finished work, and the propose-then-`--no-ff`-merge flow — and the harness default of committing only on request applies again. Two dangling references in the remaining sections were reworded rather than removed: **Requires an explicit request** now says pushing "your own feature branch" needs no request instead of naming `feat/` or `fix/`, and **Working alongside other agents** no longer refers to "the branch flow above". `AGENTS.md` dropped from 209 to 178 lines.
 - [x] Set the default Claude Code model to Opus 5.5 in the tracked `claude/settings.json`, and kept the effort level at `xhigh`. `model` is pinned to `claude-opus-5-5`, replacing the old `opus[1m]` rather than the floating `opus` alias, so a future Opus release is not picked up silently; the `[1m]` suffix was dropped because Opus 4.7 and later get the 1M context window on every plan. `"effortLevel": "xhigh"` carries over a local edit made in the live settings; it is the highest level the key accepts, since `max` is session-only (`/effort max`) unless forced through the `CLAUDE_CODE_EFFORT_LEVEL` environment variable, which was deliberately not set.
 - [x] Allowed `*.finance.yahoo.com` and `*.yahoo.com` in `sandbox.network.allowedDomains` of the tracked `claude/settings.json`, carrying over a local edit made in the live settings so sandboxed commands can reach Yahoo Finance on every machine.

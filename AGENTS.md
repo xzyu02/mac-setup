@@ -26,10 +26,16 @@
 - List in the body exactly the checked TODO items covered by the staged changes — all of them, and no unrelated historical entries. Do not reduce a multi-feature commit to a single line or to one of several included TODOs.
 - Never revert or reconstruct working-tree changes just to split history into a tidier intermediate commit — the risk of losing or mangling finished work outweighs a cleaner log. Commit each feature or fix once it is done instead, so the history separates itself.
 
+## Branches and pushing
+
+- Work on the branch that is checked out — the default branch unless the user
+  names another or switches to one. Do not create a branch unless asked.
+- Push the branch you are working on without asking. Force pushes are covered
+  under **Destructive Git operations**.
+
 ## Requires an explicit request
 
-- Merging into the default branch, and pushing the default branch. Pushing
-  your own feature branch does not need one.
+- Merging into the default branch.
 - Anything outward-facing: pull requests, tags, releases, new remotes.
 - Committing unfinished, unverified, or actively-iterating work. Leave it in
   the working tree and say what is left.
@@ -62,19 +68,16 @@ rules constrain how work touches shared history.
 - Run `git fetch` and report what it shows — ahead/behind counts, uncommitted
   work, unpushed commits — before starting any work that will change the
   repository. A stale base is cheap to fix beforehand and expensive after.
-- Work only on your own branch. Never commit to, merge, or delete a branch
-  another session created, and never switch a branch out from under one.
+- Never commit to, merge, or delete a branch another session created, and
+  never switch a branch out from under one.
 - Re-check the default branch for new commits immediately before merging into
   it, not just at the start of the session.
-- When work is on a branch, push it before the session ends even if the
-  feature is unfinished, so another machine or agent can pick the thread up.
-  An unpushed branch is invisible to every other device.
 - Stop and ask on any merge or rebase conflict in code, config, or job
   scripts. The other side is another thread's finished work and its intent is
   not visible from the diff — report the conflicting files and wait. Resolve
-  it on the feature branch once told to, never by rewriting the default
-  branch. The one exception is `TODOs.md`, where the resolution is always to
-  keep both sides' entries and refresh the `Last updated:` line.
+  it once told to, never by rewriting the default branch. The one exception
+  is `TODOs.md`, where the resolution is always to keep both sides' entries
+  and refresh the `Last updated:` line.
 
 ## Compute environment routing
 

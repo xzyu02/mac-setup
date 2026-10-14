@@ -34,3 +34,19 @@ every repository.
   `git merge --no-ff` and an `[MRG]` subject so the branch stays a visible
   unit in the history, then delete the merged branch.
 
+## Push restrictions
+
+Replaced by **Branches and pushing** in `AGENTS.md`, which lets agents push the
+branch they are working on, including the default branch.
+
+From **Requires an explicit request**:
+
+- Merging into the default branch, and pushing the default branch. Pushing
+  your own feature branch does not need one.
+
+From **Working alongside other agents**:
+
+- Work only on your own branch.
+- When work is on a branch, push it before the session ends even if the
+  feature is unfinished, so another machine or agent can pick the thread up.
+  An unpushed branch is invisible to every other device.
