@@ -18,6 +18,15 @@
 - When new requirements overlap an existing feature, extend the feature instead of discarding older behavior. If the requirements genuinely conflict, ask for direction or clearly explain the necessary tradeoff before removing anything.
 - After changes, verify both the requested behavior and nearby existing behavior that could regress. Add or update regression coverage when practical.
 
+## Explaining concepts and papers
+
+When the user is confused, or asks for a detailed explanation of a concept or a paper, write the explanation in ASD-STE100 Simplified Technical English:
+
+- Keep sentences short — at most 20 words for an instruction and 25 for a description — with one idea per sentence and at most six sentences per paragraph.
+- Use the active voice and simple tenses. Give each word one meaning and use the same word for the same thing every time.
+- Define each technical term the first time it occurs, then use only that term. Replace a vague pronoun with the noun it refers to.
+- Keep equations, code, and the paper's own notation exact; the STE rules apply to the prose around them.
+
 ## Git commits
 
 - Start every commit message subject with an appropriate type tag, such as `[WIP]`, `[FEA]`, `[MRG]`, or `[FIX]`.
